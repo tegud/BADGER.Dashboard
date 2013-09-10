@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Live Status</title>
+        <meta name="viewport" content="width=device-width" />
+    
+        <link href="~/Assets/css/site.css" rel="stylesheet" />
+        <link href="~/Assets/css/ladda.css" rel="stylesheet" />
+        
+        @RenderSection("Stylesheet", false)
+    </head>
+    <body>
+        <header id="top-bar">
+            <a id="top-bar-logo" href="/"></a>
+            <div class="top-bar-section">
+                <ul>
+                    <li><a href="/">Live Status</a></li>
+                    <li><a href="http://qa.ad.laterooms.com:90/index.html#/dashboard/file/logstash.json" target="_blank">Kibana</a></li>
+                </ul>
+            </div>
+        </header>
+        
+        <div id="toggle-menu" title="Toggle menu bar"></div>
+
+        <div class="main-body">
+            @RenderBody()
+        </div>
+        
+        <script type="text/javascript" src="~/Assets/js/lib/jquery-2.0.0.min.js"></script>
+        <script type="text/javascript" src="~/Assets/js/ladda.js"></script>
+        <script type="text/javascript" src="~/Assets/js/menu.js"></script>
+        
+        <script type="text/javascript">
+            function appendIframe() {
+                $('body').append('<iframe frameborder="0" src="http://lr-brand-releases.laterooms.com" style="width:100%; height: 300px;"></frame>');
+            }
+        </script>
+
+        @RenderSection("Javascript", false)
+    </body>
+</html>

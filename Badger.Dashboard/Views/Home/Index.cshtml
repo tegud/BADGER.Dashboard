@@ -1,0 +1,62 @@
+﻿@using System.Web.Optimization
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layouts/_Layout.cshtml";
+}
+
+<h2>Live Status</h2>
+
+<ul id="metrics-list">
+    <li class="stop-start" id="stop-start"></li>
+    <li class="time-select">
+        <select id="query-time-select">
+            <option data-time-limit="timePeriod=15mins" data-custom-text="15 Mins">Last 15mins</option>
+            <option data-time-limit="timePeriod=30mins" data-custom-text="30 Mins">Last 30mins</option>
+            <option data-time-limit="timePeriod=1hour" data-custom-text="1 Hour">Last Hour</option>
+            <option data-time-limit="timePeriod=4hours" data-custom-text="4 Hours">Last 4 Hours</option>
+            <option data-time-limit="timePeriod=12hours" data-custom-text="12 Hours">Last 12 Hours</option>
+            <!--<option data-time-limit="timePeriod=1day" data-custom-text="24 Hours">Last 24 Hours</option>-->
+            <option class="custom-item">Custom...</option>
+        </select>
+    </li>
+</ul>
+
+<h3 id="metric-title">&nbsp;</h3>
+<ul id="metric-drilldown-list"></ul>
+
+<div id="graphs"></div>
+
+@section Stylesheet
+{
+    <link rel="stylesheet" href="~/Assets/css/jquery-ui/jquery-ui-smoothness.css" />
+    <style>
+        h1 { margin: 0; }
+
+        iframe {width: 100%;height: 250px; }
+
+        .graph-container {margin-left: 0;background-color: transparent;padding: 0;height: auto; width: auto; }
+
+        .graph-container.half {width: 50%;float: left; }
+
+        .graph-title {font-size: 1.2em;min-height: 23px;font-weight: bold; }
+    </style>
+}
+
+@section Javascript
+{
+    @Scripts.Render("~/assets/js/bundles/dashboards")
+	
+    <script type="text/javascript">
+        (function () {
+            var dashboardCollection = new TLRGRP.BADGER.DashboardCollection([
+                new TLRGRP.BADGER.Dashboard.Overview(),
+                new TLRGRP.BADGER.Dashboard.Mobile(),
+                new TLRGRP.BADGER.Dashboard.WebHosts(),
+                new TLRGRP.BADGER.Dashboard.ByHost(),
+                new TLRGRP.BADGER.Dashboard.ByPage()
+            ], 'Overview');
+            
+            dashboardCollection.setUpUi();
+        })();
+    </script>
+}
