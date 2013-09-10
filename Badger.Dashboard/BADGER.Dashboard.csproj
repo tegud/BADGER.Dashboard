@@ -157,13 +157,13 @@
     <Content Include="Assets\js\d3.box.js" />
     <Content Include="Assets\js\ladda.js" />
     <Content Include="Assets\js\lib\lodash.js" />
-    <Content Include="Assets\js\lib\moment.min.js" />
+    <Content Include="Assets\js\lib\moment.js" />
     <Content Include="Assets\js\lib\fabric.all.min.js" />
     <Content Include="Assets\js\lib\jquery-ui.js" />
     <Content Include="Assets\js\lib\nanomachine.js" />
     <Content Include="Assets\js\lib\TLRGRP.BADGER.utilities.js" />
     <Content Include="Assets\js\lib\d3.min.js" />
-    <Content Include="Assets\js\lib\jquery-2.0.0.min.js" />
+    <Content Include="Assets\js\lib\jquery-2.0.0.js" />
     <Content Include="Assets\js\lib\TLRGRP.core.js" />
     <Content Include="Assets\js\menu.js" />
     <Content Include="Assets\js\page-capture.js" />
