@@ -23,7 +23,9 @@ namespace BADGER.Dashboard
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            BundleTable.EnableOptimizations = false;
+#if release
+            BundleTable.EnableOptimizations = true;
+#endif
         }
     }
 }
