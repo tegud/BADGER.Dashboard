@@ -18,7 +18,6 @@ namespace BADGER.Dashboard.App_Start
             dashboardsBundle.Include("~/assets/js/lib/jquery-2.0.0.min.js",
                                      "~/assets/js/lib/jquery-ui.js",
                                      "~/assets/js/lib/lodash.js",
-                                     "~/assets/js/lib/moment.min.js",
                                      "~/assets/js/lib/TLRGRP.core.js",
                                      "~/assets/js/lib/moment.min.js",
                                      "~/assets/js/lib/nanomachine.js",
