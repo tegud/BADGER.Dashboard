@@ -1,6 +1,54 @@
 ﻿(function () {
     TLRGRP.namespace('TLRGRP.BADGER.WMI');
 
+    TLRGRP.BADGER.WMI2 = (function () {
+        var wmi = (function () {
+            return (function () {
+                return new TLRGRP.BADGER.Cube.ExpressionBuilder('lr_web_wmi');
+            });
+        })();
+
+        var allMetrics = {
+            'RequestsExecuting': {
+                title: 'Requests Executing',
+                expression: wmi().median('ASPNET2__Total_RequestsExecuting').equalTo('metricGroup', 'ASPNET2'),
+                chartOptions: {
+                    yAxisLabel: 'requests'
+                }
+            },
+            'RequestsPerSec': {
+                name: 'Requests /s',
+                expression: wmi().median('ASPNET2__Total_RequestsPerSec').equalTo('metricGroup', 'ASPNET2'),
+                chartOptions: {
+                    yAxisLabel: 'requests /s'
+                }
+            },
+            'CPU': {
+                name: 'CPU',
+                expression: wmi().median('cpu__Total_PercentProcessorTime').equalTo('metricGroup', 'cpu'),
+                chartOptions: {
+                    axisExtents: {
+                        y: [0, 100]
+                    },
+                    yAxisLabel: '%',
+                }
+            },
+            'Memory': {
+                name: 'Memory',
+                expression: wmi().median('memory_AvailableMBytes').equalTo('metricGroup', 'memory').divideBy(1024),
+                chartOptions: {
+                    yAxisLabel: 'GB Available',
+                }
+            }
+        };
+        
+        return {
+            metricInfo: function (metricName) {
+                return allMetrics[metricName];
+            }
+        };
+    })();
+
     TLRGRP.BADGER.WMI = (function () {
         var wmiEventType = 'lr_web_wmi';
         var allMetrics = {

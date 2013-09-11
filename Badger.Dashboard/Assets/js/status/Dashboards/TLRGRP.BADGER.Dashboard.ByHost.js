@@ -1,14 +1,9 @@
-﻿(function() {
+﻿(function () {
     TLRGRP.namespace('TLRGRP.BADGER.Dashboard');
-
-    var colors = ['steelblue', 'red', 'orange', 'green', 'purple'];
 
     TLRGRP.BADGER.Dashboard.ByHost = function () {
         var currentTimePeriod = '1hour';
-        var currentViewName;
-        var currentSubMetricName;
-        var currentView;
-        var currentSubMetric;
+        var currentHost;
         var isSelected;
 
         return {
@@ -19,8 +14,8 @@
                 return view === 'HostView';
             },
             appendViewModel: function (viewModel) {
-                if (currentViewName) {
-                    viewModel.pageName = 'View Metrics for ' + (currentSubMetricName || 'Host');
+                if (isSelected) {
+                    viewModel.pageName = 'View Metrics for ' + (currentHost || 'Host');
                     viewModel.timePeriod = currentTimePeriod;
                 }
 
@@ -29,159 +24,87 @@
                     metric: 'HostView',
                     isSelected: isSelected
                 };
-                    
+
                 if (isSelected) {
                     var allServers = TLRGRP.BADGER.Machines.getAllServers();
                     var allServerLength = allServers.length;
                     var x;
                     var serverNameRegex = /TELWEB[0]{0,3}([0-9]{1,3})P/;
-                    
+
                     for (x = 0; x < allServerLength; x++) {
                         viewModel.subMetrics[viewModel.subMetrics.length] = {
                             name: allServers[x].replace(serverNameRegex, '$1'),
                             metric: 'HostView',
                             subMetric: allServers[x],
-                            isSelected: currentSubMetricName === allServers[x]
+                            isSelected: currentHost === allServers[x]
                         };
                     }
                 }
             },
             setView: function (view, subMetric) {
-                currentViewName = view;
-                currentSubMetricName = subMetric || 'TELWEB001P';
+                currentHost = subMetric || 'TELWEB001P';
                 isSelected = true;
             },
             clearView: function () {
                 isSelected = false;
-                currentViewName = '';
-                currentView = '';
-                currentSubMetric = '';
             },
             setTimePeriod: function (timePeriod) {
                 currentTimePeriod = timePeriod;
             },
             getComponents: function () {
-                var currentTimitSelectDataString = TLRGRP.BADGER.Cube.convertTimePeriod(currentTimePeriod);
+                var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactoryNew(currentTimePeriod);
+                var bindToHost = function (expression) {
+                    return expression.equalTo('source_host', currentHost);
+                };
                 var chartOptions = {
-                    lockToZero: true,
                     legend: false,
                     dimensions: {
                         margin: {
-                            right: 10
+                            right: 30
                         }
                     }
                 };
 
-                var defaultGraphBuilderOptions = {
-                    graphOptions: {}
-                };
-
-                function buildGraph(metrics, options) {
-                    var metricsLength;
-                    var x;
-                    var expressions = [];
-                    var name = 'Untitled';
-                    var allMetricChartOptions = [true, {}, chartOptions];
-
-                    options = $.extend({}, defaultGraphBuilderOptions, options);
-
-                    if (typeof metrics === 'string') {
-                        if (options.name) {
-                            name = options.name;
-                        }
-                        
-                        metrics = [metrics];
-                    }
-
-                    metricsLength = metrics.length;
-
-                    for (x = 0; x < metricsLength; x++) {
-                        var wmiMetric = TLRGRP.BADGER.WMI.metricInfo(metrics[x]);
-
-                        if (name === 'Untitled') {
-                            name = wmiMetric.name;
-                        }
-
-                        allMetricChartOptions[allMetricChartOptions.length] = wmiMetric.chartOptions;
-
-                        expressions[expressions.length] = {
-                            id: metrics[x],
-                            title: wmiMetric.name,
-                            color: colors[x % colors.length],
-                            expression: TLRGRP.BADGER.Cube.WMI.buildExpression(wmiMetric, currentSubMetricName, currentTimitSelectDataString)
-                        };
-                    }
-
-                    allMetricChartOptions[allMetricChartOptions.length] = options.graphOptions;
-
-                    return {
-                        title: options.name || name,
+                return graphFactory.getGraphsFor.apply(this, [{
                         'class': 'half',
-                        expressions: expressions,
-                        chartOptions: $.extend.apply(this, allMetricChartOptions)
-                    };
-                }
-
-                return [
-                    buildGraph('RequestsExecuting'),
-                    buildGraph('CPU'),
-                    buildGraph('Memory'),
-                    buildGraph(['Gen0GarbageCollection1', 'Gen1GarbageCollection1', 'Gen2GarbageCollection1'], {
-                        name: 'Garbage Collection 1',
-                        graphOptions: {
-                            dimensions: {
-                                margin: {
-                                    left: 50,
-                                    right: 90
-                                }
-                            },
-                            legend: {
-                                textAlign: 'end'
-                            }
-                        }
-                    }),
-                    buildGraph(['Gen0GarbageCollection2', 'Gen1GarbageCollection2', 'Gen2GarbageCollection2'], {
-                        name: 'Garbage Collection 2',
-                        graphOptions: {
-                            dimensions: {
-                                margin: {
-                                    left: 50,
-                                    right: 90
-                                }
-                            },
-                            legend: {
-                                textAlign: 'end'
-                            }
-                        }
-                    }),
-                    buildGraph(['Gen0GarbageCollection3', 'Gen1GarbageCollection3', 'Gen2GarbageCollection3'], {
-                        name: 'Garbage Collection 3',
-                        graphOptions: {
-                            dimensions: {
-                                margin: {
-                                    left: 50,
-                                    right: 90
-                                }
-                            },
-                            legend: {
-                                textAlign: 'end'
-                            }
-                        }
-                    }),
-                    buildGraph(['PercentTimeinGC1', 'PercentTimeinGC2', 'PercentTimeinGC3'], {
-                        name: 'Time in GC',
-                        graphOptions: {
-                            dimensions: {
-                                margin: {
-                                    left: 50,
-                                    right: 90
-                                }
-                            },
-                            legend: {
-                                textAlign: 'end'
-                            }
-                        }
-                    })];
+                        title: 'Requests Executing',
+                        source: 'WMI2',
+                        expressions: [{
+                            id: 'RequestsExecuting',
+                            filter: bindToHost
+                        }],
+                        chartOptions: chartOptions
+                    },
+                    {
+                        'class': 'half',
+                        title: 'CPU',
+                        source: 'WMI2',
+                        expressions: [{
+                            id: 'CPU',
+                            filter: bindToHost
+                        }],
+                        chartOptions: chartOptions
+                    },
+                    {
+                        'class': 'half',
+                        title: 'Requests',
+                        source: 'IIS',
+                        expressions: [{
+                            id: 'AllTraffic',
+                            filter: bindToHost
+                        }],
+                        chartOptions: chartOptions
+                    },
+                    {
+                        'class': 'half',
+                        title: 'Memory',
+                        source: 'WMI2',
+                        expressions: [{
+                            id: 'Memory',
+                            filter: bindToHost
+                        }],
+                        chartOptions: chartOptions
+                    }]);
             }
         };
     };

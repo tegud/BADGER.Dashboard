@@ -9,125 +9,89 @@
         function getTrafficByGraph() {
             var trafficTypeGraph = {
                 id: 'TrafficByType',
-                additionalExpressionFilters: [{
-                    filter: 'equalTo',
-                    key: 'pagetype',
-                    value: TLRGRP.BADGER.Pages.get(currentSubMetric).pagetype
-                }],
+                source: 'IIS',
+                title: 'Traffic by Type',
+                expressions: ['AllTraffic', 'BotTraffic', 'MobileTraffic'],
+                filter: function (expression) {
+                    return expression.equalTo('pagetype', TLRGRP.BADGER.Pages.get(currentSubMetric).pagetype);
+                },
                 chartOptions: {
-                    dimensions: { margin: { right: 58 } }
+                    dimensions: {
+                        margin: { right: 58 }
+                    }
                 }
             };
 
             return trafficTypeGraph;
         }
 
+        var getResponseTimeGraph = function(expression) {
+            return {
+                id: 'ResponseTimeByPage',
+                source: 'IIS',
+                title: 'Response Time',
+                expressions: [expression],
+                chartOptions: {
+                    dimensions: {
+                        margin: { left: 50 }
+                    }
+                }
+            };
+        };
+
+        var getErrorsGraph = function () {
+            return {
+                id: 'AllErrors',
+                source: 'Errors',
+                title: 'Errors',
+                expressions: ['AllErrors'],
+                filter: function(expression) {
+                    return expression.matchesRegEx('Url', TLRGRP.BADGER.Pages.get(currentSubMetric).regex);
+                },
+                chartOptions: {
+                    legend: false,
+                    yAxisLabel: '',
+                    dimensions: { margin: { right: 20 } }
+                }
+            };
+        };
+
         var subMetrics = {
             'HomePage': {
                 name: 'Home Page',
                 pageType: 'home-page',
                 getGraphs: function () {
-                    var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactory(currentTimePeriod);
-
-                    return graphFactory.getGraphsFor(getTrafficByGraph(),
-                        {
-                            id: 'ResponseTimeByPage',
-                            title: 'Response Time',
-                            expressions: ['HomePageServerResponseTime'],
-                            chartOptions: {
-                                legend: false,
-                                dimensions: { margin: { right: 20 } }
-                            }
-                        });
+                    var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactoryNew(currentTimePeriod);
+                    return graphFactory.getGraphsFor(getTrafficByGraph(), getResponseTimeGraph('HomePageServerResponseTime'));
                 }
             },
             'Search': {
                 pageType: 'search',
                 getGraphs: function () {
-                    var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactory(currentTimePeriod);
+                    var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactoryNew(currentTimePeriod);
                     return graphFactory.getGraphsFor(getTrafficByGraph(),
-                        {
-                            id: 'ResponseTimeByPage',
-                            title: 'Response Time',
-                            expressions: ['SearchServerResponseTime'],
-                            slots: 2,
-                            chartOptions: {
-                                legend: false,
-                                dimensions: { margin: { right: 20 } }
-                            }
-                        },
-                        {
-                            id: 'AllErrors',
-                            additionalExpressionFilters: [{
-                                filter: 'matchesRegEx',
-                                key: 'Url',
-                                value: TLRGRP.BADGER.Pages.get(currentSubMetric).regex
-                            }],
-                            slots: 2,
-                            chartOptions: {
-                                dimensions: { margin: { right: 20 } }
-                            }
-                        });
+                        getResponseTimeGraph('SearchServerResponseTime'),
+                        getErrorsGraph());
                 }
             },
             'HotelDetails': {
                 name: 'Hotel Details',
                 pageType: 'hotel-details',
                 getGraphs: function () {
-                    var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactory(currentTimePeriod);
+                    var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactoryNew(currentTimePeriod);
                     return graphFactory.getGraphsFor(getTrafficByGraph(),
-                        {
-                            id: 'ResponseTimeByPage',
-                            title: 'Response Time',
-                            expressions: ['HotelDetailsServerResponseTime'],
-                            slots: 2,
-                            chartOptions: {
-                                legend: false,
-                                dimensions: { margin: { right: 20 } }
-                            }
-                        },
-                        {
-                            id: 'AllErrors',
-                            additionalExpressionFilters: [{
-                                filter: 'matchesRegEx',
-                                key: 'Url',
-                                value: TLRGRP.BADGER.Pages.get(currentSubMetric).regex
-                            }],
-                            slots: 2,
-                            chartOptions: {
-                                dimensions: { margin: { right: 20 } }
-                            }
-                        });
+                        getResponseTimeGraph('SearchServerResponseTime'),
+                        getErrorsGraph());
                 }
             },
             'BookingForm': {
                 name: 'Booking Form',
                 pageType: 'booking-form',
                 getGraphs: function () {
-                    var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactory(currentTimePeriod);
+                    var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactoryNew(currentTimePeriod);
                     return graphFactory.getGraphsFor(getTrafficByGraph(),
-                        {
-                            id: 'ResponseTimeByPage',
-                            title: 'Response Time',
-                            expressions: ['BookingFormServerResponseTime'],
-                            slots: 2,
-                            chartOptions: {
-                                legend: false,
-                                dimensions: { margin: { right: 20 } }
-                            }
-                        },
-                        {
-                            id: 'AllErrors',
-                            additionalExpressionFilters: [{
-                                filter: 'matchesRegEx',
-                                key: 'Url',
-                                value: TLRGRP.BADGER.Pages.get(currentSubMetric).regex
-                            }],
-                            slots: 2,
-                            chartOptions: {
-                                dimensions: { margin: { right: 20 } }
-                            }
-                        });
+                        getResponseTimeGraph('SearchServerResponseTime'),
+                        getErrorsGraph());
                 }
             }
         };

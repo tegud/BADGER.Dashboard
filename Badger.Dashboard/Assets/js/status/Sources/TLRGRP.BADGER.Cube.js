@@ -72,6 +72,10 @@
             'in': criteriaFunction('in'),
             sum: reducerSetter('sum'),
             median: reducerSetter('median'),
+            divideBy: function (divideBy) {
+                expressionDivideBy = divideBy;
+                return filterReturnObject;
+            },
             setTimePeriod: function (timePeriod) {
                 expressionTimeSelection = timePeriod;
 
@@ -79,6 +83,11 @@
             },
             build: function () {
                 var expression = expressionReducer + '(' + metric;
+                var divideBy = '';
+
+                if (expressionDivideBy) {
+                    divideBy = '/' + expressionDivideBy;
+                }
 
                 if (expressionValue) {
                     expression += '(' + expressionValue + ')';
@@ -99,13 +108,14 @@
                     }).join('.');
                 }
 
-                return expression + ')&' + expressionTimeSelection;
+                return expression + ')'+ divideBy +'&' + expressionTimeSelection;
             }
         };
         var expressionCriteria = [];
         var expressionValue;
         var expressionReducer;
         var expressionTimeSelection;
+        var expressionDivideBy;
 
         return filterReturnObject;
     }

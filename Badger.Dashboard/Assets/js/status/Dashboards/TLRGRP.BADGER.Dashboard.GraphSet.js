@@ -57,7 +57,7 @@
             },
             getComponents: function () {
                 var subMetricConfiguration = subMetrics[currentSubMetric];
-                var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactory(currentTimePeriod);
+                var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactoryNew(currentTimePeriod);
 
                 return graphFactory.getGraphsFor.apply(this, subMetricConfiguration);
             }

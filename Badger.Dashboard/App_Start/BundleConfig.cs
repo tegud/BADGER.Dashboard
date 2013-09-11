@@ -42,10 +42,7 @@ namespace BADGER.Dashboard.App_Start
                                      "~/Assets/js/status/Metrics/TLRGRP.BADGER.WMI.js",
                                      "~/Assets/js/status/Metrics/TLRGRP.BADGER.Errors.js");
 
-            dashboardsBundle.Include("~/Assets/js/status/TLRGRP.BADGER.Dashboard.GraphFactory.js",
-                                     "~/Assets/js/status/Graphs/TLRGRP.BADGER.Dashboard.Graphs.js",
-                                     "~/Assets/js/status/Graphs/TLRGRP.BADGER.Dashboard.Graphs.IIS.js",
-                                     "~/Assets/js/status/Graphs/TLRGRP.BADGER.Dashboard.Graphs.Errors.js");
+            dashboardsBundle.Include("~/Assets/js/status/TLRGRP.BADGER.Dashboard.GraphFactory.js");
 
             dashboardsBundle.Include("~/Assets/js/status/TLRGRP.BADGER.DashboardCollection.js",
                 "~/Assets/js/status/TLRGRP.BADGER.Dashboard.Builder.js");
