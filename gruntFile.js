@@ -2,17 +2,13 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     uglify: {
-	  options: {
-		sourceMap: 'build/nanoMachine.sourceMap.js',
-		sourceMappingURL: 'nanoMachine.sourceMap.js'
-	  },
       build: {
-        src: 'src/nanoMachine.js',
-        dest: 'build/nanoMachine.min.js'
+        src: 'Badger.Dashboard/src/nanoMachine.js',
+        dest: 'Badger.Dashboard/build/nanoMachine.min.js'
       }
     },
 	jshint: {
-	  all: ['src/*.js', 'tests/*.js']
+	  all: ['Badger.Dashboard/src/*.js', 'tests/**/*.js']
 	},
 	qunit: {
 	  all: ['tests/**/*.html']
