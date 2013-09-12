@@ -17,7 +17,10 @@
                         expressions: [{
                             id: 'MobileOnMobile',
                             color: colors.getColorByIndex(3),
-                        }, 'MobileOnDesktop']
+                        }, {
+                            id: 'MobileOnDesktop',
+                            color: colors.getColorByIndex(2)
+                        }]
                     }, {
                         id: 'MobileTrafficByPage',
                         'class': 'half',

@@ -4,7 +4,7 @@
     TLRGRP.BADGER.Errors = (function () {
         var errors = (function () {
             return (function () {
-                return new TLRGRP.BADGER.Cube.ExpressionBuilder('no_type');
+                return new TLRGRP.BADGER.Cube.ExpressionBuilder('lr_errors');
             });
         })();
 

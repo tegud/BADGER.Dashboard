@@ -14,6 +14,7 @@
             function getGraphFor(graph) {
                 var currentTimitSelectDataString = TLRGRP.BADGER.Cube.convertTimePeriod(currentTimePeriod);
                 var allChartOptions = [];
+                var graphType = graph.graphType;
 
                 return $.extend(true, {}, graph, {
                     'class': graph.class,
@@ -30,7 +31,8 @@
                         
                         return $.extend(true,
                             {
-                                color: colors.getColorByIndex(i)
+                                color: colors.getColorByKey(expression, i),
+                                graphType: graphType,
                             },
                             expressionObject,
                             expression,
