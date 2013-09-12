@@ -3,16 +3,20 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     uglify: {
       build: {
-        src: 'Badger.Dashboard/Assets/js/**/*.js',
-        dest: 'Badger.Dashboard/Assets/js/build/**/*.js'
+        files: [{
+            expand: true,
+            src: '**/*.js',
+            dest: 'Badger.Dashboard/Assets/js/src',
+            cwd: 'Badger.Dashboard/Assets/js/build'
+        }]
       }
     },
-	jshint: {
-	  all: ['Badger.Dashboard/src/*.js', 'tests/**/*.js']
-	},
-	qunit: {
-	  all: ['tests/**/*.html']
-	}
+  jshint: {
+    all: ['Badger.Dashboard/src/*.js', 'tests/**/*.js']
+  },
+  qunit: {
+    all: ['tests/**/*.html']
+  }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
