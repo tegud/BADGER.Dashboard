@@ -1,17 +1,22 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    jshint: {
-      all: ['Badger.Dashboard/Assets/js/**/*.js', 'tests/**/*.js']
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js'
+      }
     },
-    qunit: {
-      all: ['tests/**/*.html']
+    jshint: {
+      all: [
+        'Badger.Dashboard/Assets/js/status/*.js', 
+        'Badger.Dashboard/Assets/js/status-charts/*.js', 
+        'tests/**/*.js'
+      ]
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks('grunt-karma');
 
-  grunt.registerTask('default', ['jshint', 'qunit']);
+  grunt.registerTask('default', ['karma']);
 };
