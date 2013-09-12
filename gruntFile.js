@@ -3,8 +3,8 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     uglify: {
       build: {
-        src: 'Badger.Dashboard/src/nanoMachine.js',
-        dest: 'Badger.Dashboard/build/nanoMachine.min.js'
+        src: 'Badger.Dashboard/Assets/js/**/*.js',
+        dest: 'Badger.Dashboard/Assets/js/build/**/*.js'
       }
     },
 	jshint: {
@@ -19,6 +19,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-qunit');
 
-  grunt.registerTask('default', ['jshint', 'qunit', 'uglify']);
-
+  grunt.registerTask('default', ['uglify']);
 };
