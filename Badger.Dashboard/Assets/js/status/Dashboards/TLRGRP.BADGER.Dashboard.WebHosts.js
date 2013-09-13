@@ -3,13 +3,11 @@
 
     TLRGRP.BADGER.Dashboard.WebHosts = function () {
         function buildSubmetrics(counters) {
-            var countersLength = counters.length;
-            var x;
             var subMetrics = {};
 
-            for (x = 0; x < countersLength; x++) {
-                subMetrics[counters[x]] = TLRGRP.BADGER.WMI.metricInfo(counters[x]);
-            }
+            _(counters).each(function (counter) {
+                subMetrics[counter] = TLRGRP.BADGER.WMI.metricInfo(counter);
+            });
 
             return subMetrics;
         }
@@ -106,6 +104,9 @@
                 var webBoxes = TLRGRP.BADGER.Machines.getServerRange('web');
                 var webBoxesLength = webBoxes.length;
                 var serverNameRegex = /TELWEB[0]{0,3}([0-9]{1,3})P/;
+                var getServerInteger = function(server) {
+                    return parseInt(server.replace(serverNameRegex, '$1'), 10);
+                };
 
                 for (var i = 0; i < webBoxesLength; i++) {
                     if (!(i % maxPerGroup)) {
@@ -115,18 +116,14 @@
                     metricGroups[currentMetricGroup][metricGroups[currentMetricGroup].length] = webBoxes[i];
                 }
 
-                return _(metricGroups).map(function (serverGroup, n) {
+                return _(metricGroups).map(function (serverGroup) {
                     var title = currentSubMetric.name + ' by hosts ';
                     
                     var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactoryNew(currentTimePeriod);
 
                     return graphFactory.getGraphsFor({
                         'class': 'half',
-                        title: title + _(serverGroup).min(function (server) {
-                            return parseInt(server.replace(serverNameRegex, '$1'), 10);
-                        }) + ' - ' + _(serverGroup).max(function (server) {
-                            return parseInt(server.replace(serverNameRegex, '$1'), 10);
-                        }),
+                        title: title + _(serverGroup).min(getServerInteger) + ' - ' + _(serverGroup).max(getServerInteger),
                         source: 'WMI2',
                         expressions: _(serverGroup).map(function (server) {
                             return {
