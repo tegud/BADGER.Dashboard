@@ -32,12 +32,13 @@
                         return $.extend(true,
                             {
                                 color: colors.getColorByKey(expression, i),
-                                graphType: graphType,
+                                graphType: graphType
                             },
                             expressionObject,
                             expression,
                             {
-                                expression: expressionBuilder.build()
+                                expression: expressionBuilder.build(),
+                                id: expression.id + '-' + i
                             });
                     }),
                     chartOptions: $.extend.apply(this, [{}, chartOptions].concat(allChartOptions).concat([graph.chartOptions]))

@@ -154,7 +154,6 @@
     <Content Include="Assets\images\refresh-controls.png" />
     <Content Include="Assets\images\status-logo.png" />
     <Content Include="Assets\images\togglemenu.png" />
-    <Content Include="Assets\js\d3.box.js" />
     <Content Include="Assets\js\ladda.js" />
     <Content Include="Assets\js\lib\lodash.js" />
     <Content Include="Assets\js\lib\moment.js" />

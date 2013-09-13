@@ -1,8 +1,6 @@
 ﻿(function () {
     TLRGRP.namespace('TLRGRP.BADGER.Dashboard');
 
-    var colors = ['steelblue', 'red', 'orange', 'green', 'purple'];
-
     TLRGRP.BADGER.Dashboard.WebHosts = function () {
         function buildSubmetrics(counters) {
             var countersLength = counters.length;
@@ -105,10 +103,9 @@
                 var maxPerGroup = 5;
                 var metricGroups = [];
                 var currentMetricGroup = -1;
-                var graphs = [];
-                var currentTimitSelectDataString = TLRGRP.BADGER.Cube.convertTimePeriod(currentTimePeriod);
                 var webBoxes = TLRGRP.BADGER.Machines.getServerRange('web');
                 var webBoxesLength = webBoxes.length;
+                var serverNameRegex = /TELWEB[0]{0,3}([0-9]{1,3})P/;
 
                 for (var i = 0; i < webBoxesLength; i++) {
                     if (!(i % maxPerGroup)) {
@@ -118,42 +115,30 @@
                     metricGroups[currentMetricGroup][metricGroups[currentMetricGroup].length] = webBoxes[i];
                 }
 
-                for (var n = 0; n < metricGroups.length; n++) {
-                    var expressions = [];
+                return _(metricGroups).map(function (serverGroup, n) {
                     var title = currentSubMetric.name + ' by hosts ';
+                    
+                    var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactoryNew(currentTimePeriod);
 
-                    for (var m = 0; m < metricGroups[n].length; m++) {
-                        var machineName = metricGroups[n][m];
-                        var serverNameRegex = /TELWEB[0]{0,3}([0-9]{1,3})P/;
-                        var machineId = machineName.replace(serverNameRegex, '$1');
-
-                        if (!m) {
-                            title += machineId + '-';
-                        } else if (m === metricGroups[n].length - 1) {
-                            title += machineId;
-                        }
-
-                        expressions[expressions.length] = {
-                            id: machineName,
-                            title: machineName,
-                            color: colors[m % colors.length],
-                            expression: TLRGRP.BADGER.Cube.WMI.buildExpression(currentSubMetric, machineName, currentTimitSelectDataString)
-                        };
-                    }
-
-                    graphs[graphs.length] = {
-                        title: title,
+                    return graphFactory.getGraphsFor({
                         'class': 'half',
-                        expressions: expressions,
-                        chartOptions: $.extend(true, {
-                            legend: {
-                                linkFormat: '/status?metric=HostView&subMetric={title}'
-                            }
-                        }, currentSubMetric.chartOptions)
-                    };
-                }
-
-                return graphs;
+                        title: title + _(serverGroup).min(function (server) {
+                            return parseInt(server.replace(serverNameRegex, '$1'), 10);
+                        }) + ' - ' + _(serverGroup).max(function (server) {
+                            return parseInt(server.replace(serverNameRegex, '$1'), 10);
+                        }),
+                        source: 'WMI2',
+                        expressions: _(serverGroup).map(function (server) {
+                            return {
+                                id: currentSubMetricName,
+                                title: server,
+                                filter: function(expression) {
+                                    return expression.equalTo('source_host', server);
+                                }
+                            };
+                        })
+                    })[0];
+                });
             }
         };
     };

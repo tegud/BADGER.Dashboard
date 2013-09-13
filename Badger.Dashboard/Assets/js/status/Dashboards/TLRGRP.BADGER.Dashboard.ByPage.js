@@ -9,6 +9,7 @@
         function getTrafficByGraph() {
             var trafficTypeGraph = {
                 id: 'TrafficByType',
+                'class': 'half',
                 source: 'IIS',
                 title: 'Traffic by Type',
                 expressions: ['AllTraffic', 'BotTraffic', 'MobileTraffic'],
@@ -25,9 +26,10 @@
             return trafficTypeGraph;
         }
 
-        var getResponseTimeGraph = function(expression) {
+        var getResponseTimeGraph = function (expression) {
             return {
                 id: 'ResponseTimeByPage',
+                'class': 'half',
                 source: 'IIS',
                 title: 'Response Time',
                 expressions: [expression],
@@ -42,10 +44,11 @@
         var getErrorsGraph = function () {
             return {
                 id: 'AllErrors',
+                'class': 'half',
                 source: 'Errors',
                 title: 'Errors',
                 expressions: ['AllErrors'],
-                filter: function(expression) {
+                filter: function (expression) {
                     return expression.matchesRegEx('Url', TLRGRP.BADGER.Pages.get(currentSubMetric).regex);
                 },
                 chartOptions: {
@@ -80,7 +83,7 @@
                 getGraphs: function () {
                     var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactoryNew(currentTimePeriod);
                     return graphFactory.getGraphsFor(getTrafficByGraph(),
-                        getResponseTimeGraph('SearchServerResponseTime'),
+                        getResponseTimeGraph('HotelDetailsServerResponseTime'),
                         getErrorsGraph());
                 }
             },
@@ -90,8 +93,25 @@
                 getGraphs: function () {
                     var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactoryNew(currentTimePeriod);
                     return graphFactory.getGraphsFor(getTrafficByGraph(),
-                        getResponseTimeGraph('SearchServerResponseTime'),
-                        getErrorsGraph());
+                        getResponseTimeGraph('BookingFormServerResponseTime'),
+                        getErrorsGraph(),
+                    {
+                        id: 'BookingSubmitErrorsFromIIS',
+                        title: 'Booking Submit Errors',
+                        'class': 'half',
+                        source: 'IIS',
+                        expressions: [{
+                            id: 'IISBookingSubmitError'
+                        }],
+                        chartOptions: {
+                            legend: false,
+                            dimensions: {
+                                margin: {
+                                    right: 20
+                                }
+                            }
+                        }
+                    });
                 }
             }
         };

@@ -78,6 +78,13 @@
                     yAxisLabel: 'requests'
                 }
             },
+            'IISBookingSubmitError': {
+                title: 'On Desktop',
+                expression: iis().sum().equalTo('status', 500).matchesRegEx('url', '/en/Booking/Submit\.mvc'),
+                chartOptions: {
+                    yAxisLabel: 'errors'
+                }
+            }
         };
 
         function addRequestsMetrics() {
