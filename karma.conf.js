@@ -4,17 +4,20 @@
 module.exports = function(config) {
   config.set({
     // base path, that will be used to resolve files and exclude
-    basePath: '',
+    basePath: './',
     // frameworks to use
-    frameworks: ['jasmine'],
+    frameworks: ['mocha'],
     // list of files / patterns to load in the browser
     files: [
-      'Badger.Dashboard/Assets/js/**/*.js',
-      'tests/**/*.js'
+        'Badger.Dashboard/Assets/js/lib/*.js',
+        'Badger.Dashboard/Assets/js/status/UI/TLRGRP.BADGER.ColorPalette.js',
+        'Badger.Dashboard/Assets/js/status/Sources/TLRGRP.BADGER.Cube.js',
+        'Badger.Dashboard/Assets/js/status/TLRGRP.BADGER.Dashboard.GraphFactory.js',
+        'tests/**/*.html',
+        'tests/**/*.js'
     ],
     // list of files to exclude
-    exclude: [
-    ],
+    exclude: [],
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
     reporters: ['progress'],
@@ -26,7 +29,7 @@ module.exports = function(config) {
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_INFO,
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    autoWatch: true,
     // Start these browsers, currently available:
     // - Chrome
     // - ChromeCanary

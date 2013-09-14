@@ -1,14 +1,25 @@
-<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>QUnit Example</title>
-  <link rel="stylesheet" href="/resources/qunit.css">
+  <title>Mocha Tests</title>
+  <link rel="stylesheet" href="../lib/mocha.css" />
 </head>
 <body>
-  <div id="qunit"></div>
-  <div id="qunit-fixture"></div>
-  <script src="/resources/qunit.js"></script>
-  <script src="/resources/tests.js"></script>
+  <div id="mocha"></div>
+  <script src="../../Badger.Dashboard\Assets\js\lib\jquery-2.0.0.js"></script>
+  <script src="../../Badger.Dashboard\Assets\js\lib\lodash.js"></script>
+  <script src="../../Badger.Dashboard\Assets\js\lib\TLRGRP.core.js"></script>
+  <script src="../../Badger.Dashboard\Assets\js\status\UI\TLRGRP.BADGER.ColorPalette.js"></script>
+  <script src="../../Badger.Dashboard\Assets\js\status\sources\TLRGRP.BADGER.Cube.js"></script>
+  <script src="../../Badger.Dashboard\Assets\js\status\TLRGRP.BADGER.Dashboard.GraphFactory.js"></script>
+  <script src="../lib/expect.js"></script>
+  <script src="../lib/mocha.js"></script>
+  <script>mocha.setup('bdd')</script>
+  <script src="TLRGRP.BADGER.Dashboard.GraphFactory.Tests.js"></script>
+  <script>
+    mocha.checkLeaks();
+    mocha.globals(['jQuery']);
+    mocha.run();
+  </script>
 </body>
 </html>
