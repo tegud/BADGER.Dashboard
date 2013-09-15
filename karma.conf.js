@@ -8,14 +8,7 @@ module.exports = function(config) {
     // frameworks to use
     frameworks: ['mocha'],
     // list of files / patterns to load in the browser
-    files: [
-        'Badger.Dashboard/Assets/js/lib/*.js',
-        'Badger.Dashboard/Assets/js/status/UI/TLRGRP.BADGER.ColorPalette.js',
-        'Badger.Dashboard/Assets/js/status/Sources/TLRGRP.BADGER.Cube.js',
-        'Badger.Dashboard/Assets/js/status/TLRGRP.BADGER.Dashboard.GraphFactory.js',
-        'tests/**/*.html',
-        'tests/**/*.js'
-    ],
+    files: [],
     // list of files to exclude
     exclude: [],
     // test results reporter to use
