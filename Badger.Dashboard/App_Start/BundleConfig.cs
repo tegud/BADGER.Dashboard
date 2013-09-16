@@ -23,7 +23,7 @@ namespace BADGER.Dashboard.App_Start
             var dashboardsBundle = new ScriptBundle("~/Assets/js/bundles/dashboards");
 
             dashboardsBundle.Include("~/Assets/js/lib/jquery-ui.js",
-                                     "~/Assets/js/lib/TLRGRP.BADGER.utilities.js");
+                                     "~/Assets/js/TLRGRP.BADGER.utilities.js");
 
             dashboardsBundle.Include("~/Assets/js/status-charts/TLRGRP.dashboards.Builder.js");
 

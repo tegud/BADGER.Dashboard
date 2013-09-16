@@ -93,7 +93,18 @@
                 getGraphs: function () {
                     var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactoryNew(currentTimePeriod);
                     return graphFactory.getGraphsFor(getTrafficByGraph(),
-                        getResponseTimeGraph('BookingFormServerResponseTime'),
+                    {
+                        id: 'ResponseTimeByPage',
+                        'class': 'half',
+                        source: 'IIS',
+                        title: 'Response Time',
+                        expressions: ['BookingFormServerResponseTime', 'TotalBookingFormPageLoadTime'],
+                        chartOptions: {
+                            dimensions: {
+                                margin: { left: 50 }
+                            }
+                        }
+                    },
                         getErrorsGraph(),
                     {
                         id: 'BookingSubmitErrorsFromIIS',

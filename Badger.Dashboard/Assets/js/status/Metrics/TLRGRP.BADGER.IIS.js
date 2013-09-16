@@ -84,6 +84,10 @@
                 chartOptions: {
                     yAxisLabel: 'errors'
                 }
+            },
+            'TotalBookingFormPageLoadTime': {
+                title: 'OnLoad',
+                expression: iis().median('boomerang_done').matchesRegEx('url', '/beacon/pageresponse')
             }
         };
 
