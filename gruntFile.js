@@ -1,11 +1,9 @@
 module.exports = function(grunt) {
   var files = [
     'Badger.Dashboard/Assets/js/lib/*.js',
-    'Badger.Dashboard/Assets/js/status/UI/TLRGRP.BADGER.ColorPalette.js',
-    'Badger.Dashboard/Assets/js/status/Sources/TLRGRP.BADGER.Cube.js',
-    'Badger.Dashboard/Assets/js/status/TLRGRP.BADGER.Dashboard.GraphFactory.js',
-    'tests/**/*.html',
-    'tests/**/*.js'
+    'tests/lib/*.js',
+    'Badger.Dashboard/Assets/js/v2/**/*.js',
+    'tests/v2/**/*.js'
   ];
 
   grunt.initConfig({
@@ -27,8 +25,8 @@ module.exports = function(grunt) {
     },
     jshint: {
       all: [
-      'tests/BADGER.Dashboard/**/*.js',
-      'Badger.Dashboard/Assets/js/status/TLRGRP.BADGER.Dashboard.GraphFactory.js'
+      'tests/v2/**/*.js',
+      'Badger.Dashboard/Assets/js/v2/**/*.js'
       ]
     }
   });

@@ -14,21 +14,24 @@ LOADING = (function () {
 
     function colorHslToRgb(color) {
         var r, g, b, h, s, l;
+        
+        function hue2rgb(p, q, t) {
+            if (t < 0) t += 1;
+            if (t > 1) t -= 1;
+            if (t < 1 / 6) return p + (q - p) * 6 * t;
+            if (t < 1 / 2) return q;
+            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+            return p;
+        }
+
         h = color.h;
         s = color.s;
         l = color.l;
-        if (s == 0) {
+        if (s === 0) {
             r = g = b = l; // achromatic
         } else {
 
-            function hue2rgb(p, q, t) {
-                if (t < 0) t += 1;
-                if (t > 1) t -= 1;
-                if (t < 1 / 6) return p + (q - p) * 6 * t;
-                if (t < 1 / 2) return q;
-                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-                return p;
-            }
+            
 
             var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
             var p = 2 * l - q;
@@ -75,9 +78,8 @@ LOADING = (function () {
         color.l = l;
     }
 
-
     function main(canvas) {
-        var colors, arcs, w, h, canvas, ctx, x, y, borderWidth, i, r, step,
+        var colors, arcs, w, h, ctx, x, y, borderWidth, i, r, step,
             startColor, addColor, numStripes;
 
         ctx = canvas.getContext('2d');
@@ -111,7 +113,7 @@ LOADING = (function () {
                 offset: 1,
                 frameStart: step * i
             });
-            r -= .1;
+            r -= 0.1;
             luminateColor(startColor);
         }
         run(arcs, ctx, canvas, 0, step);
@@ -141,7 +143,7 @@ LOADING = (function () {
                     colorRgbToHsl(c);
                     c.h += 0.001;
                     if (c.h >= 1) {
-                        c.h = .001;
+                        c.h = 0.001;
                     }
                     colorHslToRgb(c);
                 }
