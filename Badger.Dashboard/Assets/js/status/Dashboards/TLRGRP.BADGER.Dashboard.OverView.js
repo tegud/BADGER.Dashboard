@@ -37,7 +37,16 @@
                     'class': 'half',
                     source: 'IIS',
                     title: 'Response Time by Page',
-                    expressions: ['HomePageServerResponseTime', 'SearchServerResponseTime', 'HotelDetailsServerResponseTime', 'BookingFormServerResponseTime'],
+                    expressions: [
+                        'HomePageServerResponseTime',
+                        'SearchServerResponseTime',
+                        'HotelDetailsServerResponseTime',
+                        'BookingFormServerResponseTime',
+                        {
+                            id: 'LoadBalancerCheckPageResponseTime',
+                            color: 'red'
+                        }
+                    ],
                     chartOptions: {
                         dimensions: {
                             margin: { left: 50 }

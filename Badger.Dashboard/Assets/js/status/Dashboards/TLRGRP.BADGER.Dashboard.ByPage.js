@@ -77,6 +77,47 @@
                         getErrorsGraph());
                 }
             },
+            'BathKeyword' : {
+                name: 'Bath (16279504) Keyword Search',
+                getGraphs: function () {
+                    var graphFactory = TLRGRP.BADGER.Dashboard.GraphFactoryNew(currentTimePeriod);
+                    return graphFactory.getGraphsFor({
+                        id: 'AllErrors',
+                        'class': 'half',
+                        source: 'Errors',
+                        title: 'Errors',
+                        expressions: [{
+                            id: 'AllErrors',
+                            filter: function (expression) {
+                                return expression.equalTo('isBathSearch', true);
+                            }
+                        }],
+                        chartOptions: {
+                            legend: false,
+                            yAxisLabel: '',
+                            dimensions: { margin: { right: 20 } }
+                        }
+                    },
+                    {
+                        id: 'ResponseTimeByPage',
+                        'class': 'half',
+                        source: 'IIS',
+                        title: 'Response Time',
+                        expressions: [{
+                            id: 'SearchServerResponseTime',
+                            filter: function (expression) {
+                                return expression.equalTo('isBathSearch', true);
+                            }
+                            
+                        }],
+                        chartOptions: {
+                            dimensions: {
+                                margin: { left: 50 }
+                            }
+                        }
+                    });
+                }
+            },
             'HotelDetails': {
                 name: 'Hotel Details',
                 pageType: 'hotel-details',

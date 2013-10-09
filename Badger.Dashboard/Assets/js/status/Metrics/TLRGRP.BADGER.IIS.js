@@ -85,6 +85,10 @@
                     yAxisLabel: 'errors'
                 }
             },
+            'LoadBalancerCheckPageResponseTime': {
+                title: 'Load Balancer',
+                expression: iis().median('duration').matchesRegEx('url', 'LoadBalancerCheck')
+            },
             'TotalBookingFormPageLoadTime': {
                 title: 'OnLoad',
                 expression: iis().median('boomerang_done').matchesRegEx('url', '/beacon/pageresponse')

@@ -1,0 +1,228 @@
+﻿@using System.Web.Optimization
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layouts/_Layout.cshtml";
+}
+
+<nav>
+    <ul class="status-menu">
+        <li class="top-level-item text">V2</li>
+        <li class="top-level-item">
+            <div class="current-item">Overview</div>
+            <select class="submenu-options">
+                <option selected>Overview</option>
+                <option>Mobile</option>
+                <option>Requests</option>
+                <option>Performance</option>
+                <option>Disk</option>
+                <option>By Server</option>
+                <option>By Page</option>
+            </select>
+        </li>
+        <li class="top-level-item">
+            <div class="current-item">Summary</div>
+            <select class="submenu-options">
+                <option selected>Summary</option>
+                <option>Traffic</option>
+                <option>Errors</option>
+                <option>IPG</option>
+            </select>
+        </li>
+    </ul>
+</nav>
+
+<div id="content">
+    <div>
+        <ul class="defcon-meter">
+            <li class="cocked-pistol">1</li>
+            <li class="fast-pace">2</li>
+            <li class="round-house">3</li>
+            <li class="double-take current">4</li>
+            <li class="fade-out">5</li>
+        </ul>
+        
+        <div class="defcon-detail">
+            <h3>DEFCON 4</h3>
+            <p>
+                Site is under normal load, errors are inline with base line and response times are good. 
+            </p>
+            <p>
+                No action required.
+            </p>
+        </div>
+    </div>
+    
+    <div class="v2-graph-component">
+        <h3>Errors</h3>
+        <div class="v2-graph-counter">
+            Errors in last 10mins
+            <strong class="v2-graph-counter-value">60</strong>
+        </div>
+        <div class="v2-graph-container">
+            
+        </div>
+    </div>
+    
+    <div class="v2-graph-component">
+        <h3>Traffic</h3>
+        <div class="v2-graph-container">
+            
+        </div>
+    </div>
+    
+    <div class="v2-graph-component">
+        <h3>Response Time</h3>
+        <div class="v2-graph-counter">
+            Avg. Resp. Time (ms)
+            <strong class="v2-graph-counter-value" style="font-size: 2.9em">1,051</strong>
+        </div>
+        <div class="v2-graph-container">
+            
+        </div>
+    </div>
+</div>
+
+@section Stylesheet
+{
+    <link rel="stylesheet" href="~/Assets/css/jquery-ui/jquery-ui-smoothness.css" />
+    <style type="text/css">
+        body { background-color: #eaeaea;margin: 0 0 5px 0; }
+
+        h3 {margin: 0;padding: 0 }
+
+        #content { display: none; }
+        
+        /* LOADING */
+        .loading-canvas {
+            position: absolute;
+        }
+
+        .loading-overlay { position: absolute;top: 0;bottom: 0;left: 0;right: 0;background-color: #ddd;opacity: 0.5;}
+
+        /* Menu */
+        .status-menu {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+        }
+
+        .top-level-item {
+            background-color: #fff;
+            border: solid 1px #ddd;
+            display: inline-block;
+            font-size: 1.4em;
+            font-weight: bold;
+            vertical-align: bottom;
+            cursor: default;
+            position: relative;
+        }
+
+        .top-level-item.text {
+            padding: 11px 10px 5px 10px;
+            height: 32px;
+        }
+
+        .status-submenu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .submenu-options {
+            opacity: 0;
+            -moz-opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .current-item {
+            padding: 11px 38px 5px 10px;
+            height: 32px;
+            transition-property: color;
+            transition-duration: 300ms;
+            background-image: url('/assets/images/glyphicons_367_expand.png');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            cursor: pointer;
+        }
+
+        .top-level-item:hover .current-item {
+            color: #75A4FF;
+            cursor: pointer;
+        }
+
+        /* DEFCON */
+
+        .defcon-detail {
+            max-width: 90%;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .defcon-detail p { font-size: 1.5em; }
+
+        .defcon-detail h3 {font-size: 3.4em;margin-top: 12px; }
+
+        .defcon-meter {
+            list-style: none;
+            padding: 0;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 20px;
+        }
+
+        .defcon-meter li {
+            width: 18px;
+            height: 27px;
+            border: solid 6px #000;
+            border-top: 0;
+            border-bottom: 0;
+            padding: 13px 15px 10px 17px;
+            font-size: 1.5em;
+            opacity: 0.4;
+            cursor: default;
+        }
+
+        .defcon-meter li:last-child { border-bottom: solid 6px #000; }
+        .defcon-meter li:first-child { border-top: solid 6px #000; }
+
+        .defcon-meter li.current
+        {
+            opacity: 1;
+        }
+
+        .cocked-pistol { background-color: #fff; }
+        .fast-pace { background-color: red }
+        .round-house { background-color: yellow }
+        .double-take { background-color: green }
+        .fade-out { background-color: skyblue }
+
+        /* Graph Component */
+        .v2-graph-container {height: 140px;margin-right: 145px;border: solid 1px #ddd;background-color: #fff; }
+
+        .v2-graph-component h3 {margin-top: 5px;margin-bottom: 5px; }
+
+        .v2-graph-counter {float: right;width: 125px;height: 110px;text-align: center;padding: 15px 5px 15px 5px;font-size: 1.1em;border: solid 1px #ddd;background-color: #fff; }
+
+        .v2-graph-counter-value {display: block;font-size: 3.6em;margin-top: 4px; }
+    </style>
+}
+
+@section Javascript
+{
+    <script type="text/javascript" src="~/Assets/js/v2/LOADING.js"></script>
+    <script type="text/javascript">
+        (function() {
+            LOADING.show();
+
+            setTimeout(function () {
+                LOADING.hide();
+                $('#content').show();
+            }, 1000);
+        })();
+    </script>
+}
