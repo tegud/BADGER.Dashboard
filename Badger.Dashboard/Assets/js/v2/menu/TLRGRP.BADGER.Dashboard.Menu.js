@@ -4,7 +4,9 @@
     TLRGRP.namespace('TLRGRP.BADGER.Dashboard');
 
     (function() {
-        TLRGRP.BADGER.Dashboard.Register({ id: 'Overview' });
+        TLRGRP.BADGER.Dashboard.Register({ 
+            id: 'Overview' 
+        });
         TLRGRP.BADGER.Dashboard.Register({ id: 'Mobile' });
         TLRGRP.BADGER.Dashboard.Register({ id: 'Requests' });
         TLRGRP.BADGER.Dashboard.Register({ id: 'Performance' });
@@ -32,7 +34,7 @@
         };
     }
 
-    var menuTemplate = '<li class="top-level-item"><div class="current-item">{{currentDashboard}}</div><select class="submenu-options available-dashboards">{{#dashboards}}<option value="{{id}}">{{name}}</option>{{/dashboards}}</select></li>';
+    var menuTemplate = '<li class="top-level-item"><div class="current-item">{{currentDashboard}}</div><select class="submenu-options available-dashboards">{{#dashboards}}<option value="{{id}}">{{name}}</option>{{/dashboards}}</select></li><li class="top-level-item"><div class="current-item">{{currentDashboard}}</div><select class="submenu-options available-dashboards"><option>Summary</option></select></li>';
 
     TLRGRP.BADGER.Dashboard.Menu = function(menuElement) {
         var dashboards = TLRGRP.BADGER.Dashboard.getAll();

@@ -116,5 +116,23 @@
 				expect($('.top-level-item:eq(1) .current-item', menuElement).text()).to.be(expectedTitle);
 			});
 		});
+
+		describe('initial dashboard views are set', function() {
+			it('sets the first view name', function() {
+				var expectedView = 'Summary';
+				var menuElement = $('#dashboard-menu');
+				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
+
+				expect($('.top-level-item:eq(2) option:first', menuElement).text()).to.be(expectedView);
+			});
+
+			it('sets the second view name', function() {
+				var expectedView = 'Traffic';
+				var menuElement = $('#dashboard-menu');
+				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
+
+				expect($('.top-level-item:eq(2) option:eq(1)', menuElement).text()).to.be(expectedView);
+			});
+		});
 	});
 })();
