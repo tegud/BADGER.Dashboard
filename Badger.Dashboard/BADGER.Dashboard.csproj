@@ -161,6 +161,7 @@
     <Content Include="Assets\js\lib\moment.js" />
     <Content Include="Assets\js\lib\fabric.all.min.js" />
     <Content Include="Assets\js\lib\jquery-ui.js" />
+    <Content Include="Assets\js\lib\mustache.js" />
     <Content Include="Assets\js\lib\nanomachine.js" />
     <Content Include="Assets\js\TLRGRP.BADGER.utilities.js" />
     <Content Include="Assets\js\lib\d3.min.js" />
@@ -199,7 +200,9 @@
     <Content Include="Assets\js\status\UI\TLRGRP.BADGER.TimeSelect.js" />
     <Content Include="Assets\js\status\Dashboards\TLRGRP.BADGER.Dashboard.OverView.js" />
     <Content Include="Assets\js\status\Dashboards\TLRGRP.BADGER.Dashboard.WebHosts.js" />
+    <Content Include="Assets\js\v2\dashboard\TLRGRP.BADGER.Dashboard.js" />
     <Content Include="Assets\js\v2\LOADING.js" />
+    <Content Include="Assets\js\v2\menu\TLRGRP.BADGER.Dashboard.Menu.js" />
     <Content Include="Global.asax" />
     <Content Include="Views\Home\graph.html" />
     <Content Include="Web.config">
