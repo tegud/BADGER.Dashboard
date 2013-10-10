@@ -24,8 +24,10 @@
       _(subscribedMessages).each(function(callbacks, eventName) {
         _(callbacks).each(function(callback){
           TLRGRP.messageBus.unsubscribe(eventName, callback);
+          TLRGRP.messageBus.publish(eventName, { id: 'Mobile' });
         });
       });
+      subscribedMessages = {};
     }
     
     return function() {

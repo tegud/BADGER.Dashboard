@@ -52,13 +52,12 @@ TLRGRP.messageBus = (function() {
     function unsubscribe(name, callback) {
         var position = -1;
 
-        if (messages[name] === undefined) {
+        if (messages[name] !== undefined) {
             for (var i = 0; i < messages[name].length; i++) {
                 if (messages[name][i] === callback) {
                     position = i;
                 }
             }
-
             messages[name].splice(position, 1);
         }
 

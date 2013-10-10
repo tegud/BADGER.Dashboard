@@ -4,9 +4,10 @@
     Layout = "~/Views/Layouts/_Layout.cshtml";
 }
 
-<nav>
+<nav id="dashboard-menu">
     <ul class="status-menu">
         <li class="top-level-item text">V2</li>
+        <!--
         <li class="top-level-item">
             <div class="current-item">Overview</div>
             <select class="submenu-options">
@@ -27,7 +28,7 @@
                 <option>Errors</option>
                 <option>IPG</option>
             </select>
-        </li>
+        </li>-->
     </ul>
 </nav>
 
@@ -214,7 +215,13 @@
 
 @section Javascript
 {
+    <script type="text/javascript" src="~/Assets/js/lib/lodash.js"></script>
+    <script type="text/javascript" src="~/Assets/js/lib/mustache.js"></script>
+    <script type="text/javascript" src="~/Assets/js/lib/jquery-2.0.0.js"></script>
+    <script type="text/javascript" src="~/Assets/js/lib/TLRGRP.core.js"></script>
     <script type="text/javascript" src="~/Assets/js/v2/LOADING.js"></script>
+    <script type="text/javascript" src="~/Assets/js/v2/dashboard/TLRGRP.BADGER.Dashboard.js"></script>
+    <script type="text/javascript" src="~/Assets/js/v2/menu/TLRGRP.BADGER.Dashboard.Menu.js"></script>
     <script type="text/javascript">
         (function() {
             LOADING.show();
@@ -223,6 +230,8 @@
                 LOADING.hide();
                 $('#content').show();
             }, 1000);
+
+            new TLRGRP.BADGER.Dashboard.Menu($('#dashboard-menu'));
         })();
     </script>
 }

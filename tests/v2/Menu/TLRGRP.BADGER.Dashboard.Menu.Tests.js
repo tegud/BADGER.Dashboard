@@ -14,7 +14,7 @@
 	afterEach(function() {
 		$('#dashboard-menu').remove();
 	});
-	
+
 	describe('Dashboard Menu', function () {
 		describe('sets available dashboards', function () {
 			it('sets first dashboard name to overview', function () {
@@ -22,7 +22,7 @@
 				var menuElement = $('#dashboard-menu');
 				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
 
-				expect($('.top-level-item:eq(1) option:first', menuElement).text()).to.eql(expectedTitle);
+				expect($('.top-level-item:eq(1) option:first', menuElement).text()).to.be(expectedTitle);
 			});
 
 			it('sets second dashboard name to mobile', function() {
@@ -30,7 +30,7 @@
 				var menuElement = $('#dashboard-menu');
 				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
 
-				expect($('.top-level-item:eq(1) option:eq(1)', menuElement).text()).to.eql(expectedTitle);
+				expect($('.top-level-item:eq(1) option:eq(1)', menuElement).text()).to.be(expectedTitle);
 			});
 
 			it('sets second dashboard name to requests', function() {
@@ -38,7 +38,7 @@
 				var menuElement = $('#dashboard-menu');
 				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
 
-				expect($('.top-level-item:eq(1) option:eq(2)', menuElement).text()).to.eql(expectedTitle);
+				expect($('.top-level-item:eq(1) option:eq(2)', menuElement).text()).to.be(expectedTitle);
 			});
 
 			it('sets second dashboard name to performance', function() {
@@ -46,7 +46,7 @@
 				var menuElement = $('#dashboard-menu');
 				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
 
-				expect($('.top-level-item:eq(1) option:eq(3)', menuElement).text()).to.eql(expectedTitle);
+				expect($('.top-level-item:eq(1) option:eq(3)', menuElement).text()).to.be(expectedTitle);
 			});
 
 			it('sets second dashboard name to disk', function() {
@@ -54,7 +54,7 @@
 				var menuElement = $('#dashboard-menu');
 				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
 
-				expect($('.top-level-item:eq(1) option:eq(4)', menuElement).text()).to.eql(expectedTitle);
+				expect($('.top-level-item:eq(1) option:eq(4)', menuElement).text()).to.be(expectedTitle);
 			});
 
 			it('sets second dashboard name to by server', function() {
@@ -62,7 +62,7 @@
 				var menuElement = $('#dashboard-menu');
 				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
 
-				expect($('.top-level-item:eq(1) option:eq(5)', menuElement).text()).to.eql(expectedTitle);
+				expect($('.top-level-item:eq(1) option:eq(5)', menuElement).text()).to.be(expectedTitle);
 			});
 
 			it('sets second dashboard name to by page', function() {
@@ -70,7 +70,7 @@
 				var menuElement = $('#dashboard-menu');
 				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
 
-				expect($('.top-level-item:eq(1) option:eq(6)', menuElement).text()).to.eql(expectedTitle);
+				expect($('.top-level-item:eq(1) option:eq(6)', menuElement).text()).to.be(expectedTitle);
 			});
 		});
 
@@ -80,7 +80,7 @@
 				var menuElement = $('#dashboard-menu');
 				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
 
-				expect($('.top-level-item:eq(1) .current-item', menuElement).text()).to.eql(expectedTitle);
+				expect($('.top-level-item:eq(1) .current-item', menuElement).text()).to.be(expectedTitle);
 			});
 		});
 
@@ -99,7 +99,21 @@
 				select[0].selectedIndex = 6;
 				select.change();
 
-				expect(actualDashboardId).to.eql(expectedDashboardId);
+				expect(actualDashboardId).to.be(expectedDashboardId);
+			});
+		});
+
+		describe('dashboard is selected', function() {
+			it('sets current dashboard text', function() {
+				var expectedTitle = 'By Page';
+				var menuElement = $('#dashboard-menu');
+				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
+
+				TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
+					id: 'ByPage'
+				});
+
+				expect($('.top-level-item:eq(1) .current-item', menuElement).text()).to.be(expectedTitle);
 			});
 		});
 	});
