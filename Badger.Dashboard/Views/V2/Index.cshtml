@@ -87,18 +87,20 @@
 {
     <link rel="stylesheet" href="~/Assets/css/jquery-ui/jquery-ui-smoothness.css" />
     <style type="text/css">
-        body { background-color: #eaeaea;margin: 0 0 5px 0; }
+        body {background-color: #eaeaea;margin: 0 0 5px 0; }
 
         h3 {margin: 0;padding: 0 }
 
         #content { display: none; }
+
+        .hidden { display: none !important; }
         
         /* LOADING */
         .loading-canvas {
             position: absolute;
         }
 
-        .loading-overlay { position: absolute;top: 0;bottom: 0;left: 0;right: 0;background-color: #ddd;opacity: 0.5;}
+        .loading-overlay {position: absolute;top: 0;bottom: 0;left: 0;right: 0;background-color: #ddd;opacity: 0.5;}
 
         /* Menu */
         .status-menu {
@@ -116,10 +118,12 @@
             vertical-align: bottom;
             cursor: default;
             position: relative;
+            margin-right: 10px;
         }
 
         .top-level-item.text {
             padding: 11px 10px 5px 10px;
+            margin-right: 5px;
             height: 32px;
         }
 
@@ -231,6 +235,32 @@
                 $('#content').show();
             }, 1000);
 
+            TLRGRP.BADGER.Dashboard.register({
+                id: 'Overview',
+                views: {
+                    Summary: {
+                        id: 'Summary',
+                        name: 'Summary'
+                    },
+                    Traffic: {
+                        id: 'Traffic',
+                        name: 'Traffic'
+                    }
+                }
+            });
+            TLRGRP.BADGER.Dashboard.register({ id: 'Mobile' });
+            TLRGRP.BADGER.Dashboard.register({ id: 'Requests' });
+            TLRGRP.BADGER.Dashboard.register({ id: 'Performance' });
+            TLRGRP.BADGER.Dashboard.register({ id: 'Disk' });
+            TLRGRP.BADGER.Dashboard.register({
+                id: 'ByServer',
+                name: 'By Server'
+            });
+            TLRGRP.BADGER.Dashboard.register({
+                id: 'ByPage',
+                name: 'By Page'
+            });
+            
             new TLRGRP.BADGER.Dashboard.Menu($('#dashboard-menu'));
         })();
     </script>

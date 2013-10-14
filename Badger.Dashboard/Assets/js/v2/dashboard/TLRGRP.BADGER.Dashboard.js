@@ -6,16 +6,26 @@
     (function() {
         TLRGRP.BADGER.Dashboard.Dashboard = function(options) {
             var name = options.name || options.id;
+            var views = {};
+
+            _(options.views).forEach(function(view) {
+                views[view.id] = view;
+            });
 
             return {
                 id: options.id,
-                name: name
+                name: name,
+                views: views
             };
         };
 
         var dashboards = {};
 
-        TLRGRP.BADGER.Dashboard.Register = function(dashboard) {
+        TLRGRP.BADGER.Dashboard.clear = function () {
+            dashboards = {};
+        };
+
+        TLRGRP.BADGER.Dashboard.register = function(dashboard) {
             dashboards[dashboard.id] = new TLRGRP.BADGER.Dashboard.Dashboard(dashboard);
         };
 
@@ -26,7 +36,7 @@
         };
 
         TLRGRP.BADGER.Dashboard.getById = function(id) {
-            return dashboards[id];
+            return _.extend({}, dashboards[id]);
         };
     })();
 })();
