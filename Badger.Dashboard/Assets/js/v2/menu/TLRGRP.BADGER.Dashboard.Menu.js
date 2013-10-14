@@ -25,17 +25,39 @@
 
     var menuTemplate = '<li class="top-level-item"><div class="current-item"></div><select class="submenu-options available-dashboards">{{#dashboards}}<option value="{{id}}">{{name}}</option>{{/dashboards}}</select></li><li class="top-level-item"><div class="current-item"></div><select class="submenu-options available-views"></select></li>';
 
+    TLRGRP.BADGER.URL = (function() {
+        return {
+            current: function() {
+
+            },
+            pushState: function() {
+
+            }
+        };
+    })();
+
+    function getDashboardFromUrl() {
+        var currentUrl = TLRGRP.BADGER.URL.current();
+        var splitUrl = currentUrl.split('/');
+
+        if(splitUrl.length > 1) {
+            return splitUrl[1];
+        }
+
+        return 'Overview';
+    }
+
     TLRGRP.BADGER.Dashboard.Menu = function(menuElement) {
         var dashboards = TLRGRP.BADGER.Dashboard.getAll();
 
-        var ul = $('ul', menuElement);
-        var currentDashboard = 'Overview';
-        var menuHtml =  Mustache.render(menuTemplate, 
-                        buildViewModel(dashboards, currentDashboard));
+        var currentDashboard = getDashboardFromUrl();
         var dashboardSelectorElement;
         var viewSelectorElement;
 
         function setUpMenuHtml() {
+            var ul = $('ul', menuElement);
+            var menuHtml =  Mustache.render(menuTemplate, 
+                            buildViewModel(dashboards, currentDashboard));
             $(menuHtml).appendTo(ul);
 
             dashboardSelectorElement = $('.top-level-item:eq(1)', menuElement);
@@ -75,14 +97,15 @@
                 }
                 else {
                     viewSelectorElement.removeClass('hidden');
+
+                    viewSelect.html(Mustache.render('{{#views}}<option value="{{id}}">{{name}}</option>{{/views}}', {
+                        views: viewsViewModel
+                    }));
+                    
                     TLRGRP.messageBus.publish('TLRGRP.BADGER.View.Selected', {
                         id: viewsViewModel[0].id
                     });
                 }
-
-                viewSelect.html(Mustache.render('{{#views}}<option value="{{id}}">{{name}}</option>{{/views}}', {
-                    views: viewsViewModel
-                }));
 
                 $('.current-item', dashboardSelectorElement).text(dashboardName);
             });

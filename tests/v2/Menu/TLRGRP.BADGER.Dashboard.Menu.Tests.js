@@ -5,6 +5,12 @@
 		$('body').append('<nav id="dashboard-menu"><ul class="status-menu"><li class="top-level-item text">V2</li></ul></nav>');
 	}
 
+	var currentUrl = 'V2';
+	TLRGRP.BADGER.URL.current = function() {
+		return currentUrl;
+	};
+	var originalUrl = TLRGRP.BADGER.URL;
+
 	describe('Dashboard Menu', function () {
 		beforeEach(function() {
 			TLRGRP.messageBus.setUpClearDown();
@@ -234,6 +240,31 @@
 				});
 
 				expect(viewHolder.hasClass('hidden')).to.be(false);
+			});
+		});
+
+		describe('user navigates to specific dashboard', function() {
+			it('selects the specified dashboard', function() {
+				currentUrl = 'V2/ByPage';
+
+				var expectedTitle = 'By Page';
+				var menuElement = $('#dashboard-menu');
+				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
+
+				
+				expect($('.top-level-item:eq(1) .current-item', menuElement).text()).to.be(expectedTitle);
+			});
+		});
+
+		describe('user navigates to specific dashboard and view', function() {
+			it('selects the specified dashboard', function() {
+				currentUrl = 'V2/ByPage/HomePage';
+				
+				var expectedTitle = 'By Page';
+				var menuElement = $('#dashboard-menu');
+				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
+				
+				expect($('.top-level-item:eq(1) .current-item', menuElement).text()).to.be(expectedTitle);
 			});
 		});
 	});
