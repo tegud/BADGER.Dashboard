@@ -5,9 +5,6 @@
 
     function buildViewModel(dashboards, initialDashboard) {
         var currentDashboard = TLRGRP.BADGER.Dashboard.getById(initialDashboard);
-        currentDashboard.views = _(currentDashboard.views).map(function(view) {
-            return view;
-        });
 
         var viewModel = {
             currentDashboard: currentDashboard,
@@ -19,10 +16,6 @@
                     dashboard.name = dashboard.id;
                 }
 
-                dashboard.views = _(dashboard.views).map(function(view) {
-                    return view;
-                });
-
                 return dashboard;
             })
         };
@@ -30,7 +23,7 @@
         return viewModel;
     }
 
-    var menuTemplate = '<li class="top-level-item"><div class="current-item">{{currentDashboard.name}}</div><select class="submenu-options available-dashboards">{{#dashboards}}<option value="{{id}}">{{name}}</option>{{/dashboards}}</select></li><li class="top-level-item"><div class="current-item">Summary</div><select class="submenu-options available-views">{{#currentDashboard.views}}<option>{{name}}</option>{{/currentDashboard.views}}</select></li>';
+    var menuTemplate = '<li class="top-level-item"><div class="current-item"></div><select class="submenu-options available-dashboards">{{#dashboards}}<option value="{{id}}">{{name}}</option>{{/dashboards}}</select></li><li class="top-level-item"><div class="current-item"></div><select class="submenu-options available-views"></select></li>';
 
     TLRGRP.BADGER.Dashboard.Menu = function(menuElement) {
         var dashboards = TLRGRP.BADGER.Dashboard.getAll();
@@ -72,13 +65,24 @@
                 currentDashboard = newDashboardInfo.id;
                 var selectedDashboard = TLRGRP.BADGER.Dashboard.getById(currentDashboard);
                 var dashboardName = selectedDashboard.name;
+                var viewSelect = $('select', viewSelectorElement);
+                var viewsViewModel = _(selectedDashboard.views).map(function(view) {
+                    return view;
+                });
 
-                if($.isEmptyObject(selectedDashboard.views)) {
+                if(!viewsViewModel.length) {
                     viewSelectorElement.addClass('hidden');
                 }
                 else {
                     viewSelectorElement.removeClass('hidden');
+                    TLRGRP.messageBus.publish('TLRGRP.BADGER.View.Selected', {
+                        id: viewsViewModel[0].id
+                    });
                 }
+
+                viewSelect.html(Mustache.render('{{#views}}<option value="{{id}}">{{name}}</option>{{/views}}', {
+                    views: viewsViewModel
+                }));
 
                 $('.current-item', dashboardSelectorElement).text(dashboardName);
             });
@@ -99,5 +103,9 @@
         setUpMenuHtml();
         attachMenuDomEvents();
         subscribeToMessageBusEvents();
+
+        TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
+            id: currentDashboard
+        });
     };
 })();

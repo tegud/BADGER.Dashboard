@@ -230,7 +230,7 @@
         (function() {
             LOADING.show();
 
-            setTimeout(function () {
+            setTimeout(function() {
                 LOADING.hide();
                 $('#content').show();
             }, 1000);
@@ -249,7 +249,23 @@
                 }
             });
             TLRGRP.BADGER.Dashboard.register({ id: 'Mobile' });
-            TLRGRP.BADGER.Dashboard.register({ id: 'Requests' });
+            TLRGRP.BADGER.Dashboard.register({
+                id: 'Requests',
+                views: {
+                    'Executing': {
+                        id: 'Executing',
+                        name: 'Requests Executing'
+                    },
+                    'PerSec': {
+                        id: 'PerSec',
+                        name: 'Requests/s'
+                    },
+                    'Execution Time': {
+                        id: 'ExecutionTime',
+                        name: 'Execution Time'
+                    }
+                }
+            });
             TLRGRP.BADGER.Dashboard.register({ id: 'Performance' });
             TLRGRP.BADGER.Dashboard.register({ id: 'Disk' });
             TLRGRP.BADGER.Dashboard.register({
@@ -260,7 +276,7 @@
                 id: 'ByPage',
                 name: 'By Page'
             });
-            
+
             new TLRGRP.BADGER.Dashboard.Menu($('#dashboard-menu'));
         })();
     </script>
