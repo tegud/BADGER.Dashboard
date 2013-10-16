@@ -9,6 +9,9 @@
 				views: [{
 					id: 'Summary',
 					name: 'Summary'
+				}, {
+					id: 'Traffic',
+					name: 'Traffic'
 				}]
 			});
 			TLRGRP.BADGER.Dashboard.register({id: 'Mobile' });
@@ -47,11 +50,23 @@
 
 			it('sets available views', function() {
 				var dashboard = TLRGRP.BADGER.Dashboard.getById('Overview');
-				expect(dashboard.views).to.eql({
-					Summary: {
-						id: 'Summary',
-						name: 'Summary'
-					}
+				expect(dashboard.views.Summary).to.eql({
+					id: 'Summary',
+					name: 'Summary',
+					isDefault: true
+				});
+			});
+
+			it('sets first view to be default', function() {
+				var dashboard = TLRGRP.BADGER.Dashboard.getById('Overview');
+				expect(dashboard.views.Summary.isDefault).to.eql(true);
+			});
+			it('sets first view to be default', function() {
+				var dashboard = TLRGRP.BADGER.Dashboard.getById('Overview');
+				expect(dashboard.views.Traffic).to.eql({
+					id: 'Traffic',
+					name: 'Traffic',
+					isDefault: false
 				});
 			});
 		});

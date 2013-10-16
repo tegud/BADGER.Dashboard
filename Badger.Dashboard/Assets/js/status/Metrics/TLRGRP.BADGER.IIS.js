@@ -4,7 +4,7 @@
     TLRGRP.BADGER.IIS = (function () {
         var iis = (function () {
             return (function () {
-                return new TLRGRP.BADGER.Cube.ExpressionBuilder('lr_web_request');
+                return new TLRGRP.BADGER.Cube.ExpressionBuilder('lr_varnish_request');
             });
         })();
 

@@ -5,12 +5,6 @@
 		$('body').append('<nav id="dashboard-menu"><ul class="status-menu"><li class="top-level-item text">V2</li></ul></nav>');
 	}
 
-	var currentUrl = 'V2';
-	TLRGRP.BADGER.URL.current = function() {
-		return currentUrl;
-	};
-	var originalUrl = TLRGRP.BADGER.URL;
-
 	describe('Dashboard Menu', function () {
 		beforeEach(function() {
 			TLRGRP.messageBus.setUpClearDown();
@@ -41,6 +35,8 @@
 				id: 'ByPage', 
 				name: 'By Page' 
 			});
+
+			TLRGRP.messageBus.reset();
 
 			setupDOMFixture();
 		});
@@ -107,17 +103,7 @@
 			});
 		});
 
-		describe('initially selected dashboard', function() {
-			it('sets current dashboard text', function() {
-				var expectedTitle = 'Overview';
-				var menuElement = $('#dashboard-menu');
-				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
-
-				expect($('.top-level-item:eq(1) .current-item', menuElement).text()).to.be(expectedTitle);
-			});
-		});
-
-		describe('different dashboard is selected', function() {
+		describe('dashboard is selected', function() {
 			it('publishes TLRGRP.BADGER.Dashboard.Selected event with specified dashboard id', function() {
 				var expectedDashboardId = 'ByPage';
 				var actualDashboardId;
@@ -148,13 +134,15 @@
 
 				expect($('.top-level-item:eq(1) .current-item', menuElement).text()).to.be(expectedTitle);
 			});
-		});
 
-		describe('initial dashboard views are set', function() {
 			it('sets the first view name', function() {
 				var expectedView = 'Summary';
 				var menuElement = $('#dashboard-menu');
 				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
+
+				TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
+					id: 'Overview'
+				});
 
 				expect($('.top-level-item:eq(2) option:first', menuElement).text()).to.be(expectedView);
 			});
@@ -164,17 +152,43 @@
 				var menuElement = $('#dashboard-menu');
 				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
 
+				TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
+					id: 'Overview'
+				});
+
 				expect($('.top-level-item:eq(2) option:eq(1)', menuElement).text()).to.be(expectedView);
 			});
-		});
 
-		describe('initially selected view', function() {
-			it('sets current view text', function() {
-				var expectedTitle = 'Summary';
-				var menuElement = $('#dashboard-menu');
-				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
+			describe('toggles view selector depending on if dashboard has views', function() {
+				it('hides the views selector when no views', function() {
+					var expectedTitle = 'Traffic';
+					var menuElement = $('#dashboard-menu');
+					var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
+					var viewHolder = $('.top-level-item:eq(2)', menuElement);
 
-				expect($('.top-level-item:eq(2) .current-item', menuElement).text()).to.be(expectedTitle);
+					viewHolder.removeClass('hidden');
+
+					TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
+						id: 'Mobile'
+					});
+
+					expect(viewHolder.hasClass('hidden')).to.be(true);
+				});
+
+				it('shows the views selector when dashboard has views', function() {
+					var expectedTitle = 'Traffic';
+					var menuElement = $('#dashboard-menu');
+					var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
+					var viewHolder = $('.top-level-item:eq(2)', menuElement);
+
+					viewHolder.addClass('hidden');
+
+					TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
+						id: 'Overview'
+					});
+
+					expect(viewHolder.hasClass('hidden')).to.be(false);
+				});
 			});
 		});
 
@@ -185,6 +199,10 @@
 				var menuElement = $('#dashboard-menu');
 				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
 				var select = $('.top-level-item:eq(2) select', menuElement);
+
+				TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
+					id: 'Overview'
+				});
 
 				TLRGRP.messageBus.subscribe('TLRGRP.BADGER.View.Selected', function(selectedView) {
 					actualViewId = selectedView.id;
@@ -203,69 +221,17 @@
 				var menuElement = $('#dashboard-menu');
 				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
 
+				TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
+					id: 'Overview'
+				});
+
 				TLRGRP.messageBus.publish('TLRGRP.BADGER.View.Selected', {
 					id: 'Traffic'
 				});
 
 				expect($('.top-level-item:eq(2) .current-item', menuElement).text()).to.be(expectedTitle);
 			});
-		});
 
-		describe('toggles view selector depending on if dashboard has views', function() {
-			it('hides the views selector when no views', function() {
-				var expectedTitle = 'Traffic';
-				var menuElement = $('#dashboard-menu');
-				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
-				var viewHolder = $('.top-level-item:eq(2)', menuElement);
-
-				viewHolder.removeClass('hidden');
-
-				TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
-					id: 'Mobile'
-				});
-
-				expect(viewHolder.hasClass('hidden')).to.be(true);
-			});
-
-			it('shows the views selector when dashboard has views', function() {
-				var expectedTitle = 'Traffic';
-				var menuElement = $('#dashboard-menu');
-				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
-				var viewHolder = $('.top-level-item:eq(2)', menuElement);
-
-				viewHolder.addClass('hidden');
-
-				TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
-					id: 'Overview'
-				});
-
-				expect(viewHolder.hasClass('hidden')).to.be(false);
-			});
-		});
-
-		describe('user navigates to specific dashboard', function() {
-			it('selects the specified dashboard', function() {
-				currentUrl = 'V2/ByPage';
-
-				var expectedTitle = 'By Page';
-				var menuElement = $('#dashboard-menu');
-				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
-
-				
-				expect($('.top-level-item:eq(1) .current-item', menuElement).text()).to.be(expectedTitle);
-			});
-		});
-
-		describe('user navigates to specific dashboard and view', function() {
-			it('selects the specified dashboard', function() {
-				currentUrl = 'V2/ByPage/HomePage';
-				
-				var expectedTitle = 'By Page';
-				var menuElement = $('#dashboard-menu');
-				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
-				
-				expect($('.top-level-item:eq(1) .current-item', menuElement).text()).to.be(expectedTitle);
-			});
 		});
 	});
 })();

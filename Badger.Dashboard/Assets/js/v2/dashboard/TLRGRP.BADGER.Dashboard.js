@@ -7,8 +7,14 @@
         TLRGRP.BADGER.Dashboard.Dashboard = function(options) {
             var name = options.name || options.id;
             var views = {};
+            var isFirst = true;
 
             _(options.views).forEach(function(view) {
+                view.isDefault = isFirst;
+                if(isFirst) {
+                    isFirst = false;
+                }
+
                 views[view.id] = view;
             });
 

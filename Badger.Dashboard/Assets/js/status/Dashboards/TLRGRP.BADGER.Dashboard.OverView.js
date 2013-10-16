@@ -41,11 +41,7 @@
                         'HomePageServerResponseTime',
                         'SearchServerResponseTime',
                         'HotelDetailsServerResponseTime',
-                        'BookingFormServerResponseTime',
-                        {
-                            id: 'LoadBalancerCheckPageResponseTime',
-                            color: 'red'
-                        }
+                        'BookingFormServerResponseTime'
                     ],
                     chartOptions: {
                         dimensions: {
@@ -57,16 +53,12 @@
                     id: 'StatusCodes',
                     'class': 'half',
                     source: 'IIS',
-                    title: 'Status Codes (non 200)',
+                    title: 'Status Codes (500/404)',
                     expressions: [{
                             id: 'NotFoundResponse',
                             color: colors.getColorByIndex(2)
                         },
-                        'ErrorResponse',
-                        {
-                            id: 'RedirectResponse',
-                            color: colors.getColorByIndex(0)
-                        }],
+                        'ErrorResponse'],
                     chartOptions: {
                         dimensions: {
                             margin: {

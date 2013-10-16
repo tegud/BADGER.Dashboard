@@ -1,14 +1,10 @@
-﻿(function() {
+(function() {
     'use strict';
 
     TLRGRP.namespace('TLRGRP.BADGER.Dashboard');
 
-    function buildViewModel(dashboards, initialDashboard) {
-        var currentDashboard = TLRGRP.BADGER.Dashboard.getById(initialDashboard);
-
+    function buildViewModel(dashboards) {
         var viewModel = {
-            currentDashboard: currentDashboard,
-            currentView: 'Summary',
             dashboards: _(dashboards).map(function(dashboard){
                 dashboard = _.extend({}, dashboard);
 
@@ -25,39 +21,16 @@
 
     var menuTemplate = '<li class="top-level-item"><div class="current-item"></div><select class="submenu-options available-dashboards">{{#dashboards}}<option value="{{id}}">{{name}}</option>{{/dashboards}}</select></li><li class="top-level-item"><div class="current-item"></div><select class="submenu-options available-views"></select></li>';
 
-    TLRGRP.BADGER.URL = (function() {
-        return {
-            current: function() {
-
-            },
-            pushState: function() {
-
-            }
-        };
-    })();
-
-    function getDashboardFromUrl() {
-        var currentUrl = TLRGRP.BADGER.URL.current();
-        var splitUrl = currentUrl.split('/');
-
-        if(splitUrl.length > 1) {
-            return splitUrl[1];
-        }
-
-        return 'Overview';
-    }
-
     TLRGRP.BADGER.Dashboard.Menu = function(menuElement) {
         var dashboards = TLRGRP.BADGER.Dashboard.getAll();
-
-        var currentDashboard = getDashboardFromUrl();
         var dashboardSelectorElement;
         var viewSelectorElement;
+        var currentDashboard;
 
         function setUpMenuHtml() {
             var ul = $('ul', menuElement);
             var menuHtml =  Mustache.render(menuTemplate, 
-                            buildViewModel(dashboards, currentDashboard));
+                            buildViewModel(dashboards));
             $(menuHtml).appendTo(ul);
 
             dashboardSelectorElement = $('.top-level-item:eq(1)', menuElement);
@@ -101,10 +74,6 @@
                     viewSelect.html(Mustache.render('{{#views}}<option value="{{id}}">{{name}}</option>{{/views}}', {
                         views: viewsViewModel
                     }));
-                    
-                    TLRGRP.messageBus.publish('TLRGRP.BADGER.View.Selected', {
-                        id: viewsViewModel[0].id
-                    });
                 }
 
                 $('.current-item', dashboardSelectorElement).text(dashboardName);
@@ -126,9 +95,5 @@
         setUpMenuHtml();
         attachMenuDomEvents();
         subscribeToMessageBusEvents();
-
-        TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
-            id: currentDashboard
-        });
     };
 })();

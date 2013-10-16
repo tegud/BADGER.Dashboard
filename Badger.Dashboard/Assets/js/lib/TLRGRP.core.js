@@ -66,6 +66,9 @@ TLRGRP.messageBus = (function() {
     return {
         publish:publish,
         subscribe:subscribe,
-        unsubscribe:unsubscribe
+        unsubscribe:unsubscribe,
+        reset: function() {
+            messages = {};
+        }
     };
 })();
