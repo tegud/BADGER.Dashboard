@@ -40,55 +40,60 @@
         function attachMenuDomEvents() {
             menuElement
                 .on('change', '.available-dashboards', function() {
-                    var selectedOption = $('option:selected', this);
-
-                    TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
-                        id: selectedOption[0].value
+                    TLRGRP.messageBus.publish('TLRGRP.BADGER.DashboardAndView.Selected', {
+                        dashboard: $('option:selected', this)[0].value
                     });
                 })
                 .on('change', '.available-views', function() {
-                    var selectedOption = $('option:selected', this);
-
-                    TLRGRP.messageBus.publish('TLRGRP.BADGER.View.Selected', {
-                        id: selectedOption[0].value
+                    TLRGRP.messageBus.publish('TLRGRP.BADGER.DashboardAndView.Selected', {
+                        dashboard: currentDashboard.id,
+                        view: $('option:selected', this)[0].value
                     });  
                 });
         }
 
+        function setViewsDropDown(views) {
+            var viewsViewModel = _(views).map(function(view) {
+                return view;
+            });
+            var viewSelect = $('select', viewSelectorElement);
+
+            if(!viewsViewModel.length) {
+                viewSelectorElement.addClass('hidden');
+            }
+            else {
+                viewSelectorElement.removeClass('hidden');
+
+                viewSelect.html(Mustache.render('{{#views}}<option value="{{id}}">{{name}}</option>{{/views}}', {
+                    views: viewsViewModel
+                }));
+            }
+        }
+
+        function setDashboardSelect(selectedDashboard) {
+            $('.current-item', dashboardSelectorElement).text(selectedDashboard.name);
+            $('select', dashboardSelectorElement).val(selectedDashboard.id);
+        }
+
+        function setViewSelect(selectedView) {
+            $('.current-item', viewSelectorElement).text(selectedView.name);
+            $('select', viewSelectorElement).val(selectedView.id);
+        }
+
         function subscribeToMessageBusEvents() {
             TLRGRP.messageBus.subscribe('TLRGRP.BADGER.Dashboard.Selected', function(newDashboardInfo) {
-                currentDashboard = newDashboardInfo.id;
-                var selectedDashboard = TLRGRP.BADGER.Dashboard.getById(currentDashboard);
-                var dashboardName = selectedDashboard.name;
-                var viewSelect = $('select', viewSelectorElement);
-                var viewsViewModel = _(selectedDashboard.views).map(function(view) {
-                    return view;
-                });
+                currentDashboard = TLRGRP.BADGER.Dashboard.getById(newDashboardInfo.id);
 
-                if(!viewsViewModel.length) {
-                    viewSelectorElement.addClass('hidden');
-                }
-                else {
-                    viewSelectorElement.removeClass('hidden');
-
-                    viewSelect.html(Mustache.render('{{#views}}<option value="{{id}}">{{name}}</option>{{/views}}', {
-                        views: viewsViewModel
-                    }));
-                }
-
-                $('.current-item', dashboardSelectorElement).text(dashboardName);
+                setViewsDropDown(currentDashboard.views);
+                setDashboardSelect(currentDashboard);
             });
 
             TLRGRP.messageBus.subscribe('TLRGRP.BADGER.View.Selected', function(newViewInfo) {
-                var currentDashboardObject = TLRGRP.BADGER.Dashboard.getById(currentDashboard);
-                var viewName;
-                if(!currentDashboardObject.views[newViewInfo.id]) {
+                if(!currentDashboard.views[newViewInfo.id]) {
                     return;
                 }
 
-                viewName = currentDashboardObject.views[newViewInfo.id].name;
-
-                $('.current-item', viewSelectorElement).text(viewName);
+                setViewSelect(currentDashboard.views[newViewInfo.id]);
             });
         }
 

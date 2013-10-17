@@ -40,6 +40,17 @@
             return defaultDashboard;
         }
 
+        function getViewFromUrl() {
+            var currentUrl = TLRGRP.BADGER.URL.current();
+            var splitUrl = currentUrl.split('/');
+
+            if(splitUrl.length > 3) {
+                return splitUrl[3];
+            }
+
+            return;   
+        }
+
         function buildUrl(dashboardId, viewId) {
             var url = '/V2';
             var dashboard = TLRGRP.BADGER.Dashboard.getById(dashboardId);
@@ -97,7 +108,8 @@
         subscribeToMessageBusEvents();
 
         TLRGRP.messageBus.publish('TLRGRP.BADGER.DashboardAndView.Selected', {
-            dashboard: currentDashboard
+            dashboard: currentDashboard,
+            view: getViewFromUrl()
         });
     };
 })();

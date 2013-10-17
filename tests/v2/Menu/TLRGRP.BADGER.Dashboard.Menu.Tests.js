@@ -104,15 +104,15 @@
 		});
 
 		describe('dashboard is selected', function() {
-			it('publishes TLRGRP.BADGER.Dashboard.Selected event with specified dashboard id', function() {
+			it('publishes TLRGRP.BADGER.DashboardAndView.Selected event with specified dashboard id', function() {
 				var expectedDashboardId = 'ByPage';
 				var actualDashboardId;
 				var menuElement = $('#dashboard-menu');
 				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
 				var select = $('.top-level-item:eq(1) select', menuElement);
 
-				TLRGRP.messageBus.subscribe('TLRGRP.BADGER.Dashboard.Selected', function(selectedDashboard) {
-					actualDashboardId = selectedDashboard.id;
+				TLRGRP.messageBus.subscribe('TLRGRP.BADGER.DashboardAndView.Selected', function(selectedDashboard) {
+					actualDashboardId = selectedDashboard.dashboard;
 				});
 
 				select[0].selectedIndex = 6;
@@ -133,6 +133,18 @@
 				});
 
 				expect($('.top-level-item:eq(1) .current-item', menuElement).text()).to.be(expectedTitle);
+			});
+
+			it('sets current dashboard select option', function() {
+				var expectedTitle = 'By Page';
+				var menuElement = $('#dashboard-menu');
+				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
+
+				TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
+					id: 'Mobile'
+				});
+
+				expect($('.top-level-item:eq(1) select', menuElement)[0].selectedIndex).to.be(1);
 			});
 
 			it('sets the first view name', function() {
@@ -193,7 +205,28 @@
 		});
 
 		describe('different view is selected', function() {
-			it('publishes TLRGRP.BADGER.View.Selected event with specified view id', function() {
+			it('publishes TLRGRP.BADGER.DashboardAndView.Selected event with the current dashboard id', function() {
+				var expectedDashboardId = 'Overview';
+				var actualDashboardId;
+				var menuElement = $('#dashboard-menu');
+				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
+				var select = $('.top-level-item:eq(2) select', menuElement);
+
+				TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
+					id: 'Overview'
+				});
+
+				TLRGRP.messageBus.subscribe('TLRGRP.BADGER.DashboardAndView.Selected', function(dashboardAndView) {
+					actualDashboardId = dashboardAndView.dashboard;
+				});
+
+				select[0].selectedIndex = 1;
+				select.change();
+
+				expect(actualDashboardId).to.be(expectedDashboardId);
+			});
+
+			it('publishes TLRGRP.BADGER.DashboardAndView.Selected event with specified view id', function() {
 				var expectedViewId = 'Traffic';
 				var actualViewId;
 				var menuElement = $('#dashboard-menu');
@@ -204,8 +237,8 @@
 					id: 'Overview'
 				});
 
-				TLRGRP.messageBus.subscribe('TLRGRP.BADGER.View.Selected', function(selectedView) {
-					actualViewId = selectedView.id;
+				TLRGRP.messageBus.subscribe('TLRGRP.BADGER.DashboardAndView.Selected', function(dashboardAndView) {
+					actualViewId = dashboardAndView.view;
 				});
 
 				select[0].selectedIndex = 1;
@@ -232,6 +265,21 @@
 				expect($('.top-level-item:eq(2) .current-item', menuElement).text()).to.be(expectedTitle);
 			});
 
+			it('sets current view select option', function() {
+				var expectedTitle = 'By Page';
+				var menuElement = $('#dashboard-menu');
+				var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
+
+				TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
+					id: 'Overview'
+				});
+
+				TLRGRP.messageBus.publish('TLRGRP.BADGER.View.Selected', {
+					id: 'Traffic'
+				});
+
+				expect($('.top-level-item:eq(2) select', menuElement)[0].selectedIndex).to.be(1);
+			});
 		});
 	});
 })();

@@ -68,6 +68,40 @@
 			});
 		});
 
+		describe('url specifies a dashboard', function() {
+			it('the specified dashboard is selected', function() {
+				var expectedDashboard = 'ByPage';
+				var actualDashboard;
+
+				TLRGRP.messageBus.subscribe('TLRGRP.BADGER.DashboardAndView.Selected', function(newDashboardInfo) {
+					actualDashboard = newDashboardInfo.dashboard;
+				});
+
+				currentUrl = '/V2/ByPage';
+
+				var pageManager = new TLRGRP.BADGER.Dashboard.PageManager();
+
+				expect(actualDashboard).to.be(expectedDashboard);
+			});
+		});
+
+		describe('url specifies a dashboard and view', function() {
+			it('the specified view is selected', function() {
+				var expectedDashboard = 'PerSec';
+				var actualDashboard;
+
+				TLRGRP.messageBus.subscribe('TLRGRP.BADGER.DashboardAndView.Selected', function(newDashboardInfo) {
+					actualDashboard = newDashboardInfo.view;
+				});
+
+				currentUrl = '/V2/Requests/PerSec';
+
+				var pageManager = new TLRGRP.BADGER.Dashboard.PageManager();
+
+				expect(actualDashboard).to.be(expectedDashboard);
+			});
+		});
+
 		describe('default dashboard', function() {
 			describe('is selected', function() {
 				it('sets the url to default', function() {
