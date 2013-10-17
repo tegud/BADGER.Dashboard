@@ -56,58 +56,48 @@
         }
 
         function subscribeToMessageBusEvents() {
-            TLRGRP.messageBus.subscribe('TLRGRP.BADGER.Dashboard.Selected', function(newDashboardInfo) {
-                currentDashboard = newDashboardInfo.id;
-                var selectedDashboard = TLRGRP.BADGER.Dashboard.getById(currentDashboard);
-                var dashboardName = selectedDashboard.name;
+            TLRGRP.messageBus.subscribe('TLRGRP.BADGER.DashboardAndView.Selected', function(dashboardAndView) {
+                var dashboard = dashboardAndView.dashboard;
+                var view = dashboardAndView.view;
+                var selectedDashboard = TLRGRP.BADGER.Dashboard.getById(dashboard);
 
-                if($.isEmptyObject(selectedDashboard.views)) {
-                    TLRGRP.BADGER.URL.pushState({ 
-                        url: buildUrl(selectedDashboard.id),
-                        dashboard: selectedDashboard.id
-                    });
-                }
-                else {
-                    var defaultView = _(selectedDashboard.views).map(function(view) {
+                currentDashboard = dashboard;
+
+                if(!view) {
+                    view = _(selectedDashboard.views).map(function(view) {
                         if(view.isDefault) {
-                            return view;
+                            return view.id;
                         }
                     })[0];
-
-                    TLRGRP.messageBus.publish('TLRGRP.BADGER.View.Selected', {
-                        id: defaultView.id
-                    });
                 }
-            });
 
-            TLRGRP.messageBus.subscribe('TLRGRP.BADGER.View.Selected', function(newViewInfo) {
-                var selectedDashboard = TLRGRP.BADGER.Dashboard.getById(currentDashboard);
-                var dashboardName = selectedDashboard.name;
+                TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
+                    id: dashboard
+                });
+
+                TLRGRP.messageBus.publish('TLRGRP.BADGER.View.Selected', {
+                    id: view
+                });
 
                 TLRGRP.BADGER.URL.pushState({ 
-                    url: buildUrl(selectedDashboard.id, newViewInfo.id),
-                    dashboard: currentDashboard,
-                    view: newViewInfo.id
+                    url: buildUrl(dashboard, view),
+                    dashboard: dashboard,
+                    view: view
                 });
             });
 
             TLRGRP.messageBus.subscribe('TLRGRP.BADGER.PAGE.HistoryPopState', function(state) {
-                TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
-                    id: state.dashboard
+                TLRGRP.messageBus.publish('TLRGRP.BADGER.DashboardAndView.Selected', {
+                    dashboard: state.dashboard,
+                    view: state.view
                 });
-
-                if(state.view){ 
-                    TLRGRP.messageBus.publish('TLRGRP.BADGER.View.Selected', {
-                        id: state.view
-                    });
-                }
             });
         }
 
         subscribeToMessageBusEvents();
 
-        TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
-            id: currentDashboard
+        TLRGRP.messageBus.publish('TLRGRP.BADGER.DashboardAndView.Selected', {
+            dashboard: currentDashboard
         });
     };
 })();

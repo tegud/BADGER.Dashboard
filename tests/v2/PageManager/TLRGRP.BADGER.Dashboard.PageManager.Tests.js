@@ -58,8 +58,8 @@
 				var expectedDashboard = 'Overview';
 				var actualDashboard;
 
-				TLRGRP.messageBus.subscribe('TLRGRP.BADGER.Dashboard.Selected', function(newDashboardInfo) {
-					actualDashboard = newDashboardInfo.id;
+				TLRGRP.messageBus.subscribe('TLRGRP.BADGER.DashboardAndView.Selected', function(newDashboardInfo) {
+					actualDashboard = newDashboardInfo.dashboard;
 				});
 
 				var pageManager = new TLRGRP.BADGER.Dashboard.PageManager();
@@ -79,8 +79,8 @@
 						actualNewUrl = pageInfo.url;
 					};
 
-					TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
-						id: 'Overview'
+					TLRGRP.messageBus.publish('TLRGRP.BADGER.DashboardAndView.Selected', {
+						dashboard: 'Overview'
 					});
 
 					expect(actualNewUrl).to.be(expectedNewUrl);
@@ -97,12 +97,9 @@
 						actualNewUrl = pageInfo.url;
 					};
 
-					TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
-						id: 'Overview'
-					});
-
-					TLRGRP.messageBus.publish('TLRGRP.BADGER.View.Selected', {
-						id: 'Traffic'
+					TLRGRP.messageBus.publish('TLRGRP.BADGER.DashboardAndView.Selected', {
+						dashboard: 'Overview',
+						view: 'Traffic'
 					});
 
 					expect(actualNewUrl).to.be(expectedNewUrl);
@@ -119,12 +116,9 @@
 						actualNewUrl = pageInfo.url;
 					};
 
-					TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
-						id: 'Overview'
-					});
-
-					TLRGRP.messageBus.publish('TLRGRP.BADGER.View.Selected', {
-						id: 'Summary'
+					TLRGRP.messageBus.publish('TLRGRP.BADGER.DashboardAndView.Selected', {
+						dashboard: 'Overview',
+						view: 'Summary'
 					});
 
 					expect(actualNewUrl).to.be(expectedNewUrl);
@@ -142,8 +136,8 @@
 					actualNewUrl = pageInfo.url;
 				};
 
-				TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
-					id: 'ByPage'
+				TLRGRP.messageBus.publish('TLRGRP.BADGER.DashboardAndView.Selected', {
+					dashboard: 'ByPage'
 				});
 
 				expect(actualNewUrl).to.be(expectedNewUrl);
@@ -217,6 +211,25 @@
 					});
 
 					expect(actualView).to.be(expectedView);
+				});
+
+				it('doesn\'t load the default view then the specified view', function() {
+					var defaultViewLoaded = false;
+					var pageManager = new TLRGRP.BADGER.Dashboard.PageManager();
+
+					TLRGRP.messageBus.subscribe('TLRGRP.BADGER.View.Selected', function(newViewInfo) {
+							console.log(newViewInfo.id);
+						if(newViewInfo.id === 'Executing') {
+							defaultViewLoaded = true;
+						}
+					});
+
+					TLRGRP.messageBus.publish('TLRGRP.BADGER.PAGE.HistoryPopState', {
+						dashboard: 'Requests',
+						view: 'PerSec'
+					});
+
+					expect(defaultViewLoaded).to.be(false);
 				});
 			});
 		});
