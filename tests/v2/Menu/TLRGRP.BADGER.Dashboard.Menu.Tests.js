@@ -23,7 +23,13 @@
 					}
 				}
 			});
-			TLRGRP.BADGER.Dashboard.register({ id: 'Mobile' });
+			TLRGRP.BADGER.Dashboard.register({ 
+				id: 'Mobile',
+				views: {
+					id: 'Summary',
+					name: 'Summary'
+				}
+			});
 			TLRGRP.BADGER.Dashboard.register({ id: 'Requests' });
 			TLRGRP.BADGER.Dashboard.register({ id: 'Performance' });
 			TLRGRP.BADGER.Dashboard.register({ id: 'Disk' });
@@ -173,7 +179,6 @@
 
 			describe('toggles view selector depending on if dashboard has views', function() {
 				it('hides the views selector when no views', function() {
-					var expectedTitle = 'Traffic';
 					var menuElement = $('#dashboard-menu');
 					var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
 					var viewHolder = $('.top-level-item:eq(2)', menuElement);
@@ -181,14 +186,13 @@
 					viewHolder.removeClass('hidden');
 
 					TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
-						id: 'Mobile'
+						id: 'ByServer'
 					});
 
 					expect(viewHolder.hasClass('hidden')).to.be(true);
 				});
 
 				it('shows the views selector when dashboard has views', function() {
-					var expectedTitle = 'Traffic';
 					var menuElement = $('#dashboard-menu');
 					var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
 					var viewHolder = $('.top-level-item:eq(2)', menuElement);
@@ -200,6 +204,34 @@
 					});
 
 					expect(viewHolder.hasClass('hidden')).to.be(false);
+				});
+
+				it('makes the view selector text-only when dashboard has only one view', function() {
+					var menuElement = $('#dashboard-menu');
+					var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
+					var viewHolder = $('.top-level-item:eq(2)', menuElement);
+
+					viewHolder.addClass('hidden');
+
+					TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
+						id: 'Mobile'
+					});
+
+					expect(viewHolder.hasClass('text-only')).to.be(true);
+				});
+
+				it('makes the view selector interactable when dashboard has more than one view', function() {
+					var menuElement = $('#dashboard-menu');
+					var menu = new TLRGRP.BADGER.Dashboard.Menu(menuElement);
+					var viewHolder = $('.top-level-item:eq(2)', menuElement);
+
+					viewHolder.addClass('text-only');
+
+					TLRGRP.messageBus.publish('TLRGRP.BADGER.Dashboard.Selected', {
+						id: 'Overview'
+					});
+
+					expect(viewHolder.hasClass('text-only')).to.be(false);
 				});
 			});
 		});

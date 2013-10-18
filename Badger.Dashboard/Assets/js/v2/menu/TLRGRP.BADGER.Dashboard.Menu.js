@@ -26,6 +26,7 @@
         var dashboardSelectorElement;
         var viewSelectorElement;
         var currentDashboard;
+        var viewSelector;
 
         function setUpMenuHtml() {
             var ul = $('ul', menuElement);
@@ -34,7 +35,7 @@
             $(menuHtml).appendTo(ul);
 
             dashboardSelectorElement = $('.top-level-item:eq(1)', menuElement);
-            viewSelectorElement = $('.top-level-item:eq(2)', menuElement);
+            viewSelector = new TLRGRP.BADGER.Dashboard.ViewSelector($('.top-level-item:eq(2)', menuElement));
         }
 
         function attachMenuDomEvents() {
@@ -52,39 +53,16 @@
                 });
         }
 
-        function setViewsDropDown(views) {
-            var viewsViewModel = _(views).map(function(view) {
-                return view;
-            });
-            var viewSelect = $('select', viewSelectorElement);
-
-            if(!viewsViewModel.length) {
-                viewSelectorElement.addClass('hidden');
-            }
-            else {
-                viewSelectorElement.removeClass('hidden');
-
-                viewSelect.html(Mustache.render('{{#views}}<option value="{{id}}">{{name}}</option>{{/views}}', {
-                    views: viewsViewModel
-                }));
-            }
-        }
-
         function setDashboardSelect(selectedDashboard) {
             $('.current-item', dashboardSelectorElement).text(selectedDashboard.name);
             $('select', dashboardSelectorElement).val(selectedDashboard.id);
-        }
-
-        function setViewSelect(selectedView) {
-            $('.current-item', viewSelectorElement).text(selectedView.name);
-            $('select', viewSelectorElement).val(selectedView.id);
         }
 
         function subscribeToMessageBusEvents() {
             TLRGRP.messageBus.subscribe('TLRGRP.BADGER.Dashboard.Selected', function(newDashboardInfo) {
                 currentDashboard = TLRGRP.BADGER.Dashboard.getById(newDashboardInfo.id);
 
-                setViewsDropDown(currentDashboard.views);
+                viewSelector.setViews(currentDashboard.views);
                 setDashboardSelect(currentDashboard);
             });
 
@@ -93,7 +71,7 @@
                     return;
                 }
 
-                setViewSelect(currentDashboard.views[newViewInfo.id]);
+                viewSelector.setValue(currentDashboard.views[newViewInfo.id]);
             });
         }
 

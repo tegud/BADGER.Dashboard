@@ -127,6 +127,13 @@
             height: 32px;
         }
 
+        .top-level-item.text-only .current-item {
+            background-image: none;
+            padding: 11px 10px 5px 10px;
+        }
+
+        .top-level-item.text-only select { display: none }
+
         .status-submenu {
             list-style: none;
             padding: 0;
@@ -158,6 +165,11 @@
         .top-level-item:hover .current-item {
             color: #75A4FF;
             cursor: pointer;
+        }
+        
+        .top-level-item.text-only:hover .current-item {
+            color: #000;
+            cursor: default;
         }
 
         /* DEFCON */
@@ -226,6 +238,7 @@
     <script type="text/javascript" src="~/Assets/js/v2/LOADING.js"></script>
     <script type="text/javascript" src="~/Assets/js/v2/dashboard/TLRGRP.BADGER.Dashboard.js"></script>
     <script type="text/javascript" src="~/Assets/js/v2/pageManager/TLRGRP.BADGER.Dashboard.PageManager.js"></script>
+    <script type="text/javascript" src="~/Assets/js/v2/menu/TLRGRP.BADGER.Dashboard.ViewSelector.js"></script>
     <script type="text/javascript" src="~/Assets/js/v2/menu/TLRGRP.BADGER.Dashboard.Menu.js"></script>
     <script type="text/javascript">
         (function() {
