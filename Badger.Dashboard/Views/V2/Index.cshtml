@@ -71,6 +71,8 @@
 
         #content { display: none; }
 
+        #content.initialised { display: block; }
+
         .hidden { display: none !important; }
         
         /* LOADING */
@@ -221,6 +223,53 @@
     <script type="text/javascript" src="~/Assets/js/v2/menu/TLRGRP.BADGER.Dashboard.Menu.js"></script>
     <script type="text/javascript">
         (function() {
+            TLRGRP.BADGER.Dashboard.Components = {};
+
+            TLRGRP.BADGER.Dashboard.Components.HealthCheck = function () {
+                var componentElement = $('<div><ul class="health-check-groups">' +
+                    '<li>' +
+                        '<h3>LateRooms.com</h3>' +
+                        '<ul>' +
+                            '<li>1</li>' +
+                            '<li>2</li>' +
+                            '<li>3</li>' +
+                            '<li>4</li>' +
+                            '<li>5</li>' +
+                            '<li>6</li>' +
+                            '<li>7</li>' +
+                            '<li>8</li>' +
+                            '<li>9</li>' +
+                            '<li>10</li>' +
+                            '<li>11</li>' +
+                            '<li>12</li>' +
+                            '<li>13</li>' +
+                            '<li>14</li>' +
+                            '<li>15</li>' +
+                            '<li>16</li>' +
+                            '<li>17</li>' +
+                            '<li>18</li>' +
+                            '<li>19</li>' +
+                        '</ul>' +
+                    '</li>' +
+                    '<li>' +
+                        '<h3>SSL</h3>' +
+                        '<ul>' +
+                            '<li>107</li>' +
+                            '<li>108</li>' +
+                            '<li>109</li>' +
+                        '</ul>' +
+                    '</li>' +
+                    '<li>' +
+                        '<h3>AU</h3>' +
+                    '</li>' +
+                    '</ul></div>');
+                return {
+                    render: function(container) {
+                        container.append(componentElement);
+                    }
+                };
+            };
+
             TLRGRP.BADGER.Dashboard.register({
                 id: 'Overview',
                 views: {
@@ -240,7 +289,10 @@
                 views: {
                     LateRooms: {
                         id: 'LateRooms',
-                        name: 'LateRooms'
+                        name: 'LateRooms',
+                        components: [
+                            new TLRGRP.BADGER.Dashboard.Components.HealthCheck()
+                        ]
                     }
                 }
             });

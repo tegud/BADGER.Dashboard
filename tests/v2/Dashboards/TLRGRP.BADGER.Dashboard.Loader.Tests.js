@@ -16,13 +16,13 @@
 					name: 'Summary',
 					components: [
 						{
-							render: function() {
-								return '<div id="component-one"></div>';
+							render: function(container) {
+								$('<div id="component-one"></div>').appendTo(container);
 							} 
 						},
 						{
-							render: function() {
-								return '<div id="component-two"></div>';
+							render: function(container) {
+								return $('<div id="component-two"></div>').appendTo(container);
 							} 
 						}
 					]
@@ -92,6 +92,18 @@
                 });
 
 				expect(loadingHidden).to.be(true);
+			});
+
+			it('initialises dashboard container when html is set', function() {
+				var dashboardContainer = $('#dashboard-container');
+
+				new TLRGRP.BADGER.Dashboard.Loader(dashboardContainer);
+
+                TLRGRP.messageBus.publish('TLRGRP.BADGER.DashboardAndView.Selected', {
+                    dashboard: 'Overview'
+                });
+                
+				expect(dashboardContainer.hasClass('initialised')).to.be(true);
 			});
 		});
 	});

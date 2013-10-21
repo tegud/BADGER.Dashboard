@@ -12,11 +12,13 @@
 
             LOADING.show();
 
-            var componentHtml = _(view.components).map(function(component) {
-                return component.render();
-            }).join('');
+            dashboardContainer.empty();
 
-            dashboardContainer.html(componentHtml);
+            var components = _(view.components).forEach(function(component) {
+                return component.render(dashboardContainer);
+            });
+
+            dashboardContainer.addClass('initialised');
 
             LOADING.hide();
         });
