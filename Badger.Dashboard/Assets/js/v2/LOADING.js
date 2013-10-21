@@ -1,5 +1,4 @@
-﻿
-LOADING = (function () {
+﻿LOADING = (function () {
     var canvas;
     var overlay;
 

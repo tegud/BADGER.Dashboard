@@ -252,7 +252,6 @@
 					var pageManager = new TLRGRP.BADGER.Dashboard.PageManager();
 
 					TLRGRP.messageBus.subscribe('TLRGRP.BADGER.View.Selected', function(newViewInfo) {
-							console.log(newViewInfo.id);
 						if(newViewInfo.id === 'Executing') {
 							defaultViewLoaded = true;
 						}

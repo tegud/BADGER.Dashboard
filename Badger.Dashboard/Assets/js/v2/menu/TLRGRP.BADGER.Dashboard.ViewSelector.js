@@ -44,7 +44,6 @@
             selectorElement.addClass('hidden');
         }
 
-
         function showSelector() {
             selectorElement.removeClass('hidden');
         }

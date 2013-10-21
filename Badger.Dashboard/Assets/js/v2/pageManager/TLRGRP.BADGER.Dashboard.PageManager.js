@@ -87,6 +87,7 @@
                 });
 
                 TLRGRP.messageBus.publish('TLRGRP.BADGER.View.Selected', {
+                    dashboard: dashboard,
                     id: view
                 });
 
