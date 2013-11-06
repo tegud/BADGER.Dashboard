@@ -17,20 +17,33 @@
                 return window.location.pathname;
             },
             pushState: function(pageInfo) {
-                if(pageInfo.url !== window.location.pathname) {
+                if(pageInfo.url.toLowerCase() !== window.location.pathname.toLowerCase()) {
                     window.history.pushState(pageInfo, "Live Status", pageInfo.url);
                 }
             }
         };
     })();
 
-    TLRGRP.BADGER.Dashboard.PageManager = function() {
+    TLRGRP.BADGER.Dashboard.PageManager = function(options) {
+        options = $.extend({}, options);
+
         var dashboards = TLRGRP.BADGER.Dashboard.getAll();
         var defaultDashboard = 'Overview';
         var currentDashboard = getDashboardFromUrl();
 
+
+        function getCurrentUrlWithoutBase() {
+            var url = TLRGRP.BADGER.URL.current();
+
+            if(options.baseUrl) {
+                url = url.replace(new RegExp(options.baseUrl, 'i'), '');
+            }
+
+            return url;
+        }
+
         function getDashboardFromUrl() {
-            var currentUrl = TLRGRP.BADGER.URL.current();
+            var currentUrl = getCurrentUrlWithoutBase();
             var splitUrl = currentUrl.split('/');
 
             if(splitUrl.length > 2) {
@@ -41,18 +54,18 @@
         }
 
         function getViewFromUrl() {
-            var currentUrl = TLRGRP.BADGER.URL.current();
+            var currentUrl = getCurrentUrlWithoutBase();
             var splitUrl = currentUrl.split('/');
 
             if(splitUrl.length > 3) {
                 return splitUrl[3];
             }
 
-            return;   
+            return;
         }
 
         function buildUrl(dashboardId, viewId) {
-            var url = '/V2';
+            var url = (options.baseUrl || '') + '/V2';
             var dashboard = TLRGRP.BADGER.Dashboard.getById(dashboardId);
 
             if(viewId && !dashboard.views[viewId].isDefault) {

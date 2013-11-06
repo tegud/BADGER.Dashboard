@@ -148,11 +148,13 @@
     <Content Include="Assets\css\jquery-ui\jquery-ui-smoothness.css" />
     <Content Include="Assets\css\ladda.css" />
     <Content Include="Assets\css\site.css" />
+    <Content Include="Assets\css\V2\site.css" />
     <Content Include="Assets\graph.html" />
     <Content Include="Assets\images\glyphicons_367_expand.png" />
     <Content Include="Assets\images\glyphicons_369_collapse_top.png" />
     <Content Include="Assets\images\line-chart.png" />
     <Content Include="Assets\images\refresh-controls.png" />
+    <Content Include="Assets\images\refresh.png" />
     <Content Include="Assets\images\status-logo.png" />
     <Content Include="Assets\images\togglemenu.png" />
     <Content Include="Assets\js\ladda.js" />
@@ -200,7 +202,9 @@
     <Content Include="Assets\js\status\UI\TLRGRP.BADGER.TimeSelect.js" />
     <Content Include="Assets\js\status\Dashboards\TLRGRP.BADGER.Dashboard.OverView.js" />
     <Content Include="Assets\js\status\Dashboards\TLRGRP.BADGER.Dashboard.WebHosts.js" />
+    <Content Include="Assets\js\v2\Components\TLRGRP.BADGER.Components.HealthCheck.js" />
     <Content Include="Assets\js\v2\dashboard\TLRGRP.BADGER.Dashboard.js" />
+    <Content Include="Assets\js\v2\dashboard\TLRGRP.BADGER.Dashboard.Loader.js" />
     <Content Include="Assets\js\v2\LOADING.js" />
     <Content Include="Assets\js\v2\menu\TLRGRP.BADGER.Dashboard.Menu.js" />
     <Content Include="Assets\js\v2\menu\TLRGRP.BADGER.Dashboard.ViewSelector.js" />

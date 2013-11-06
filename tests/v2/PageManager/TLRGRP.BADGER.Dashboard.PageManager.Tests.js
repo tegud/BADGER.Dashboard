@@ -62,6 +62,8 @@
 					actualDashboard = newDashboardInfo.dashboard;
 				});
 
+				currentUrl = '/V2';
+
 				var pageManager = new TLRGRP.BADGER.Dashboard.PageManager();
 
 				expect(actualDashboard).to.be(expectedDashboard);
@@ -80,6 +82,38 @@
 				currentUrl = '/V2/ByPage';
 
 				var pageManager = new TLRGRP.BADGER.Dashboard.PageManager();
+
+				expect(actualDashboard).to.be(expectedDashboard);
+			});
+		});
+
+		describe('root url is specified', function() {
+			it('the specified dashboard is selected ignoring the base url', function() {
+				var expectedDashboard = 'ByPage';
+				var actualDashboard;
+
+				TLRGRP.messageBus.subscribe('TLRGRP.BADGER.DashboardAndView.Selected', function(newDashboardInfo) {
+					actualDashboard = newDashboardInfo.dashboard;
+				});
+
+				currentUrl = '/status/V2/ByPage';
+
+				var pageManager = new TLRGRP.BADGER.Dashboard.PageManager({ baseUrl: '/status' });
+
+				expect(actualDashboard).to.be(expectedDashboard);
+			});
+
+			it('the specified dashboard is selected ignoring the base url ignoring case', function() {
+				var expectedDashboard = 'ByPage';
+				var actualDashboard;
+
+				TLRGRP.messageBus.subscribe('TLRGRP.BADGER.DashboardAndView.Selected', function(newDashboardInfo) {
+					actualDashboard = newDashboardInfo.dashboard;
+				});
+
+				currentUrl = '/Status/V2/ByPage';
+
+				var pageManager = new TLRGRP.BADGER.Dashboard.PageManager({ baseUrl: '/status' });
 
 				expect(actualDashboard).to.be(expectedDashboard);
 			});
@@ -175,6 +209,24 @@
 				});
 
 				expect(actualNewUrl).to.be(expectedNewUrl);
+			});
+
+			describe('base url has been specified', function() {
+				it('includes the base url', function() {
+					var expectedNewUrl = '/status/V2/ByPage';
+					var actualNewUrl = '';
+					var pageManager = new TLRGRP.BADGER.Dashboard.PageManager({ baseUrl: '/status' });
+
+					TLRGRP.BADGER.URL.pushState = function(pageInfo) {
+						actualNewUrl = pageInfo.url;
+					};
+
+					TLRGRP.messageBus.publish('TLRGRP.BADGER.DashboardAndView.Selected', {
+						dashboard: 'ByPage'
+					});
+
+					expect(actualNewUrl).to.be(expectedNewUrl);
+				});
 			});
 		});
 

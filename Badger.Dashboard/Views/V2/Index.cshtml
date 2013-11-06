@@ -64,155 +64,14 @@
 @section Stylesheet
 {
     <link rel="stylesheet" href="~/Assets/css/jquery-ui/jquery-ui-smoothness.css" />
-    <style type="text/css">
-        body {background-color: #eaeaea;margin: 0 0 5px 0; }
-
-        h3 {margin: 0;padding: 0 }
-
-        #content { display: none; }
-
-        #content.initialised { display: block; }
-
-        .hidden { display: none !important; }
-        
-        /* LOADING */
-        .loading-canvas {
-            position: absolute;
-        }
-
-        .loading-overlay {position: absolute;top: 0;bottom: 0;left: 0;right: 0;background-color: #ddd;opacity: 0.5;}
-
-        /* Menu */
-        .status-menu {
-            list-style: none;
-            padding: 0;
-            margin: 10px 0 0 0;
-        }
-
-        .top-level-item {
-            background-color: #fff;
-            border: solid 1px #ddd;
-            display: inline-block;
-            font-size: 1.4em;
-            font-weight: bold;
-            vertical-align: bottom;
-            cursor: default;
-            position: relative;
-            margin-right: 10px;
-        }
-
-        .top-level-item.text {
-            padding: 11px 10px 5px 10px;
-            margin-right: 5px;
-            height: 32px;
-        }
-
-        .top-level-item.text-only .current-item {
-            background-image: none;
-            padding: 11px 10px 5px 10px;
-        }
-
-        .top-level-item.text-only select { display: none }
-
-        .status-submenu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .submenu-options {
-            opacity: 0;
-            -moz-opacity: 0;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-
-        .current-item {
-            padding: 11px 38px 5px 10px;
-            height: 32px;
-            transition-property: color;
-            transition-duration: 300ms;
-            background-image: url('/assets/images/glyphicons_367_expand.png');
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            cursor: pointer;
-        }
-
-        .top-level-item:hover .current-item {
-            color: #75A4FF;
-            cursor: pointer;
-        }
-        
-        .top-level-item.text-only:hover .current-item {
-            color: #000;
-            cursor: default;
-        }
-
-        /* DEFCON */
-
-        .defcon-detail {
-            max-width: 90%;
-            display: inline-block;
-            vertical-align: top;
-        }
-
-        .defcon-detail p { font-size: 1.5em; }
-
-        .defcon-detail h3 {font-size: 3.4em;margin-top: 12px; }
-
-        .defcon-meter {
-            list-style: none;
-            padding: 0;
-            display: inline-block;
-            vertical-align: top;
-            margin-right: 20px;
-        }
-
-        .defcon-meter li {
-            width: 18px;
-            height: 27px;
-            border: solid 6px #000;
-            border-top: 0;
-            border-bottom: 0;
-            padding: 13px 15px 10px 17px;
-            font-size: 1.5em;
-            opacity: 0.4;
-            cursor: default;
-        }
-
-        .defcon-meter li:last-child { border-bottom: solid 6px #000; }
-        .defcon-meter li:first-child { border-top: solid 6px #000; }
-
-        .defcon-meter li.current
-        {
-            opacity: 1;
-        }
-
-        .cocked-pistol { background-color: #fff; }
-        .fast-pace { background-color: red }
-        .round-house { background-color: yellow }
-        .double-take { background-color: green }
-        .fade-out { background-color: skyblue }
-
-        /* Graph Component */
-        .v2-graph-container {height: 140px;margin-right: 145px;border: solid 1px #ddd;background-color: #fff; }
-
-        .v2-graph-component h3 {margin-top: 5px;margin-bottom: 5px; }
-
-        .v2-graph-counter {float: right;width: 125px;height: 110px;text-align: center;padding: 15px 5px 15px 5px;font-size: 1.1em;border: solid 1px #ddd;background-color: #fff; }
-
-        .v2-graph-counter-value {display: block;font-size: 3.6em;margin-top: 4px; }
-    </style>
+    <link rel="stylesheet" href="~/Assets/css/V2/site.css" />
 }
 
 @section Javascript
 {
     <script type="text/javascript" src="~/Assets/js/lib/lodash.js"></script>
     <script type="text/javascript" src="~/Assets/js/lib/mustache.js"></script>
+    <script type="text/javascript" src="~/Assets/js/lib/moment.js"></script>
     <script type="text/javascript" src="~/Assets/js/lib/jquery-2.0.0.js"></script>
     <script type="text/javascript" src="~/Assets/js/lib/TLRGRP.core.js"></script>
     <script type="text/javascript" src="~/Assets/js/v2/LOADING.js"></script>
@@ -221,55 +80,9 @@
     <script type="text/javascript" src="~/Assets/js/v2/pageManager/TLRGRP.BADGER.Dashboard.PageManager.js"></script>
     <script type="text/javascript" src="~/Assets/js/v2/menu/TLRGRP.BADGER.Dashboard.ViewSelector.js"></script>
     <script type="text/javascript" src="~/Assets/js/v2/menu/TLRGRP.BADGER.Dashboard.Menu.js"></script>
+    <script type="text/javascript" src="~/Assets/js/v2/Components/TLRGRP.BADGER.Components.HealthCheck.js"></script>
     <script type="text/javascript">
         (function() {
-            TLRGRP.BADGER.Dashboard.Components = {};
-
-            TLRGRP.BADGER.Dashboard.Components.HealthCheck = function () {
-                var componentElement = $('<div><ul class="health-check-groups">' +
-                    '<li>' +
-                        '<h3>LateRooms.com</h3>' +
-                        '<ul>' +
-                            '<li>1</li>' +
-                            '<li>2</li>' +
-                            '<li>3</li>' +
-                            '<li>4</li>' +
-                            '<li>5</li>' +
-                            '<li>6</li>' +
-                            '<li>7</li>' +
-                            '<li>8</li>' +
-                            '<li>9</li>' +
-                            '<li>10</li>' +
-                            '<li>11</li>' +
-                            '<li>12</li>' +
-                            '<li>13</li>' +
-                            '<li>14</li>' +
-                            '<li>15</li>' +
-                            '<li>16</li>' +
-                            '<li>17</li>' +
-                            '<li>18</li>' +
-                            '<li>19</li>' +
-                        '</ul>' +
-                    '</li>' +
-                    '<li>' +
-                        '<h3>SSL</h3>' +
-                        '<ul>' +
-                            '<li>107</li>' +
-                            '<li>108</li>' +
-                            '<li>109</li>' +
-                        '</ul>' +
-                    '</li>' +
-                    '<li>' +
-                        '<h3>AU</h3>' +
-                    '</li>' +
-                    '</ul></div>');
-                return {
-                    render: function(container) {
-                        container.append(componentElement);
-                    }
-                };
-            };
-
             TLRGRP.BADGER.Dashboard.register({
                 id: 'Overview',
                 views: {
@@ -291,7 +104,24 @@
                         id: 'LateRooms',
                         name: 'LateRooms',
                         components: [
-                            new TLRGRP.BADGER.Dashboard.Components.HealthCheck()
+                            new TLRGRP.BADGER.Dashboard.Components.HealthCheck({
+                                serverSet: 'LateRooms',
+                                title: 'LateRooms Front End Server Status',
+                                host: 'localhost',
+                                port: 3000
+                            })
+                        ]
+                    },
+                    AsiaRooms: {
+                        id: 'AsiaRooms',
+                        name: 'AsiaRooms',
+                        components: [
+                            new TLRGRP.BADGER.Dashboard.Components.HealthCheck({
+                                serverSet: 'AsiaRooms',
+                                title: 'AsiaRooms Front End Server Status',
+                                host: 'localhost',
+                                port: 3000
+                            })
                         ]
                     }
                 }
@@ -327,7 +157,7 @@
 
             new TLRGRP.BADGER.Dashboard.Menu($('#dashboard-menu'));
             new TLRGRP.BADGER.Dashboard.Loader($('#content'));
-            new TLRGRP.BADGER.Dashboard.PageManager();
+            new TLRGRP.BADGER.Dashboard.PageManager({ baseUrl: window.location.host === 'lr-brand-releases.laterooms.com' ? '/status' : '' });
         })();
     </script>
 }

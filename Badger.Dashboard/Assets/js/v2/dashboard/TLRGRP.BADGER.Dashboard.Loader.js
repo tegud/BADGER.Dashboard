@@ -6,21 +6,44 @@
     TLRGRP.BADGER.Dashboard.Loader = function(dashboardContainer) {
         LOADING.show();
 
+        var currentView;
+
         TLRGRP.messageBus.subscribe('TLRGRP.BADGER.View.Selected', function(dashboardAndView) {
             var dashboard = TLRGRP.BADGER.Dashboard.getById(dashboardAndView.dashboard);
             var view = dashboard.views[dashboardAndView.id];
+            var unloadDeferreds = [];
 
             LOADING.show();
 
-            dashboardContainer.empty();
+            if(currentView) {
+                _(currentView.components).forEach(function(component) {
+                    if(component.unload && $.isFunction(component.unload)) {
+                        unloadDeferreds.push(component.unload());
+                    }
+                });
+            }
 
-            var components = _(view.components).forEach(function(component) {
-                return component.render(dashboardContainer);
-            });
+            function loadingComplete() {
+                LOADING.hide();
+            }
 
-            dashboardContainer.addClass('initialised');
+            function showNextView() { 
+                var renderDeferreds = [];
 
-            LOADING.hide();
+                currentView = view;
+
+                dashboardContainer.empty();
+
+                dashboardContainer.addClass('initialised');
+
+                _(view.components).forEach(function(component) {
+                    renderDeferreds.push(component.render(dashboardContainer));
+                });
+                
+                $.when.apply(undefined, renderDeferreds).always(loadingComplete);
+            }
+
+            $.when.apply(this, unloadDeferreds).always(showNextView);
         });
     };
 })();
