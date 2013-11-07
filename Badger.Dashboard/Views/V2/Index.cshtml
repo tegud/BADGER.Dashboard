@@ -80,9 +80,19 @@
     <script type="text/javascript" src="~/Assets/js/v2/pageManager/TLRGRP.BADGER.Dashboard.PageManager.js"></script>
     <script type="text/javascript" src="~/Assets/js/v2/menu/TLRGRP.BADGER.Dashboard.ViewSelector.js"></script>
     <script type="text/javascript" src="~/Assets/js/v2/menu/TLRGRP.BADGER.Dashboard.Menu.js"></script>
-    <script type="text/javascript" src="~/Assets/js/v2/Components/TLRGRP.BADGER.Components.HealthCheck.js"></script>
+    <script type="text/javascript" src="~/Assets/js/v2/ComponentModules/TLRGRP.BADGER.Dashboard.ComponentModules.ComponentLayout.js"></script>
+    <script type="text/javascript" src="~/Assets/js/v2/ComponentModules/TLRGRP.BADGER.Dashboard.ComponentModules.InlineLoading.js"></script>
+    <script type="text/javascript" src="~/Assets/js/v2/ComponentModules/TLRGRP.BADGER.Dashboard.ComponentModules.LastUpdated.js"></script>
+    <script type="text/javascript" src="~/Assets/js/v2/Components/HealthCheck/TLRGRP.BADGER.ComponentModules.HealthCheckServerList.js"></script>
+    <script type="text/javascript" src="~/Assets/js/v2/Components/HealthCheck/TLRGRP.BADGER.Components.HealthCheck.js"></script>
     <script type="text/javascript">
         (function() {
+            var healthCheckServer = {
+                //host: '10.44.22.158',
+                host: 'localhost',
+                port: 3000
+            };
+
             TLRGRP.BADGER.Dashboard.register({
                 id: 'Overview',
                 views: {
@@ -107,8 +117,8 @@
                             new TLRGRP.BADGER.Dashboard.Components.HealthCheck({
                                 serverSet: 'LateRooms',
                                 title: 'LateRooms Front End Server Status',
-                                host: 'localhost',
-                                port: 3000
+                                host: healthCheckServer.host,
+                                port: healthCheckServer.port
                             })
                         ]
                     },
@@ -119,8 +129,8 @@
                             new TLRGRP.BADGER.Dashboard.Components.HealthCheck({
                                 serverSet: 'AsiaRooms',
                                 title: 'AsiaRooms Front End Server Status',
-                                host: 'localhost',
-                                port: 3000
+                                host: healthCheckServer.host,
+                                port: healthCheckServer.port
                             })
                         ]
                     }

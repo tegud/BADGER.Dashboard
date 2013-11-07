@@ -9,7 +9,7 @@
 			    transitionToState: function (newState) {
 			        currentState = newState;
 
-			        executeEventHandler('_onEnter', arraySlice.call(arguments, 1));
+			        return executeEventHandler('_onEnter', arraySlice.call(arguments, 1));
 			    }
 			};
 
@@ -17,7 +17,7 @@
             var eventHandler = options.states[currentState][eventName];
 
             if (eventHandler) {
-                eventHandler.apply(internalApi, argumentsArray);
+                return eventHandler.apply(internalApi, argumentsArray);
             }
         }
 
@@ -25,7 +25,7 @@
 
         return {
             handle: function (eventName) {
-                executeEventHandler(eventName, arraySlice.call(arguments, 1));
+                return executeEventHandler(eventName, arraySlice.call(arguments, 1));
             }
         };
     };

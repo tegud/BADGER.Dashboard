@@ -3,6 +3,32 @@
 
     TLRGRP.namespace('TLRGRP.BADGER.Dashboard');
 
+    TLRGRP.BADGER.PageVisibility = (function() {
+        var stateMachine = nano.Machine({
+            states: {
+                visible: {
+                    hidden: function() {
+                        TLRGRP.messageBus.publish('TLRGRP.BADGER.PAGE.Hidden');
+                        this.transitionToState('hidden');
+                    }
+                },
+                hidden: {
+                    visible: function() {
+                        TLRGRP.messageBus.publish('TLRGRP.BADGER.PAGE.Visible');
+                        this.transitionToState('visible');
+                    }
+                }
+            },
+            initialState: 'visible'
+        });
+        
+        $(document).on('webkitvisibilitychange msvisibilitychange mozvisibilitychange visibilitychange', function () {
+            var isHidden = document.hidden || document.mozHidden || document.msHidden || document.webkitHidden;
+
+            stateMachine.handle(isHidden ? 'hidden' : 'visible');
+        });
+    })();
+
     TLRGRP.BADGER.URL = (function() {
         window.onpopstate = function(event) {
             if(!event.state) {
