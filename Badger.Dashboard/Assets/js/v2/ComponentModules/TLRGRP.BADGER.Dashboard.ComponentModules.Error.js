@@ -15,14 +15,11 @@
             show: function (message) {
                 errorContainer.removeClass('hidden');
 
-                errorText.text(message);
-
-                setTimeout(function () {
-                    errorText
-                        .css({
-                            marginTop: (errorTextContainer.height() - errorText.innerHeight()) / 2
-                        });
-                }, 0);
+                errorText
+                    .text(message)
+                    .css({
+                        marginTop: (errorTextContainer.height() - errorText.innerHeight()) / 2
+                    });
                 
                 errorTextContainer.css({
                     left: (errorContainer.width() - errorTextContainer.outerWidth()) / 2,

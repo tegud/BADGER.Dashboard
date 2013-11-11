@@ -3,6 +3,18 @@
 
     TLRGRP.namespace('TLRGRP.BADGER.Dashboard.Components');
 
+    function calculateNextRefresh(nextServerSideRefresh) {
+        var adjustedNextServerSideRefresh = moment(nextServerSideRefresh).add(500, 'ms');
+        var refreshIn = moment(adjustedNextServerSideRefresh).diff(moment());
+        var minRefreshInterval = 1000;
+
+        if (refreshIn < minRefreshInterval) {
+            refreshIn = minRefreshInterval;
+        }
+
+        return refreshIn;
+    }
+    
     TLRGRP.BADGER.Dashboard.Components.HealthCheck = function (configuration) {
         var currentTimeout;
         var refreshServerBaseUrl = 'http://' + configuration.host + ':' + configuration.port + '/';
@@ -119,7 +131,12 @@
                         });
                     },
                     refreshComplete: function (data) {
-                        success(data);
+                        serverList.updateStatus(data.groups);
+
+                        lastUpdated.setLastUpdated(data.refreshedAt);
+
+                        inlineLoading.finished();
+                        inlineError.hide();
                         
                         this.transitionToState('waiting', calculateNextRefresh(data.nextRefreshAt));
                     },
@@ -131,33 +148,10 @@
             initialState: 'uninitialised'
         });
 
-        function success(data) {
-            serverList.updateStatus(data.groups);
-
-            lastUpdated.setLastUpdated(data.refreshedAt);
-
-            inlineLoading.finished();
-            inlineError.hide();
-        }
-
-        function calculateNextRefresh(nextServerSideRefresh) {
-            var adjustedNextServerSideRefresh = moment(nextServerSideRefresh).add(500, 'ms');
-            var refreshIn = moment(adjustedNextServerSideRefresh).diff(moment());
-            var minRefreshInterval = 1000;
-
-            if (refreshIn < minRefreshInterval) {
-                refreshIn = minRefreshInterval;
-            }
-
-            return refreshIn;
-        }
-        
         function error(errorMessage) {
             inlineError.show(errorMessage);
             inlineLoading.finished();
             lastUpdated.refreshText();
-
-            //setNextTimeout(10000);
         }
         
         TLRGRP.messageBus.subscribe('TLRGRP.BADGER.PAGE.Hidden', function () {
