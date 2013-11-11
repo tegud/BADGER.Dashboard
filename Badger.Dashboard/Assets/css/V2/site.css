@@ -107,6 +107,8 @@ h3 {margin: 0;padding: 0 }
     cursor: default;
 }
 
+.view-options { min-width: 172px }
+
 /* DEFCON */
 
 .defcon-detail {
@@ -162,6 +164,8 @@ h3 {margin: 0;padding: 0 }
 
 .v2-graph-counter-value {display: block;font-size: 3.6em;margin-top: 4px; }
 
+.component-content { position: relative; }
+
 /* Status Component */
 .health-check-component {padding: 10px 10px 0 10px;border: solid 1px #ddd;background-color: #fff; }
 
@@ -171,9 +175,9 @@ h3 {margin: 0;padding: 0 }
 
 .health-check-server-groups-container { position: relative; }
 
-.health-check-error { position: absolute;top: 0;left: 0;right: 0;bottom: 0;background-color: rgba(255, 255, 255, 0.8); }
+.health-check-error { position: absolute;top: 0;left: 0;right: 0;bottom: 0;background-color: rgba(255, 255, 255, 0.8); z-index: 2 }
 
-.health-check-error-text-container { position: absolute;font-size: 1.5em; }
+.health-check-error-text-container { position: absolute;font-size: 1.5em;padding-left: 140px;min-height: 140px;background-image: url('../../images/error.png');background-position: left center;background-repeat: no-repeat }
 
 .health-check-groups {margin: 0;padding: 0;list-style: none; }
 

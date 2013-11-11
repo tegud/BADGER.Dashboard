@@ -25,6 +25,9 @@
             appendTo: function(componentElement) {
                 componentElement.append(containerElement);
             },
+            appendToLocation: function() {
+                return 'content';
+            },
             setGroups: function (groups) {
                 var viewModel = buildViewModel(groups);
 

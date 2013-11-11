@@ -8,6 +8,7 @@
         var refreshServerBaseUrl = 'http://' + configuration.host + ':' + configuration.port + '/';
         var inlineLoading = new TLRGRP.BADGER.Dashboard.ComponentModules.InlineLoading();
         var lastUpdated = new TLRGRP.BADGER.Dashboard.ComponentModules.LastUpdated();
+        var inlineError = new TLRGRP.BADGER.Dashboard.ComponentModules.Error();
         var serverList = new TLRGRP.BADGER.Dashboard.ComponentModules.HealthCheckServerList();
         var componentLayout = new TLRGRP.BADGER.Dashboard.ComponentModules.ComponentLayout({
             title: configuration.title,
@@ -15,6 +16,7 @@
             modules: [
                 inlineLoading,
                 lastUpdated,
+                inlineError,
                 serverList
             ]
         });
@@ -89,10 +91,12 @@
                     _onEnter: function (errorInfo) {
                         if (errorInfo && errorInfo.responseJSON && errorInfo.responseJSON.error) {
                             error(errorInfo.responseJSON.error);
-                            return;
+                        }
+                        else {
+                            error('Cannot access health check server.');
                         }
 
-                        error('Cannot access health check server.');
+                        this.transitionToState('waiting', 10000);
                     },
                     stop: function() {
                         this.transitionToState('paused');
@@ -133,25 +137,9 @@
             lastUpdated.setLastUpdated(data.refreshedAt);
 
             inlineLoading.finished();
-            hideError();
+            inlineError.hide();
         }
 
-        function hideError() {
-            //$('.health-check-error', componentElement).addClass('hidden');
-        }
-
-        function showError(message) {
-            var serverGroupsContainer = $('.health-check-server-groups-container', componentElement);
-            var errorContainer = $('.health-check-error', componentElement).removeClass('hidden');
-            var errorTextContainer = $('.health-check-error-text-container', errorContainer);
-            $('.health-check-error-text', errorTextContainer).text(message);
-
-            errorTextContainer.css({
-                left: (serverGroupsContainer.width() - errorTextContainer.width()) / 2,
-                top: (serverGroupsContainer.height() - errorTextContainer.height()) / 2
-            });
-        }
-        
         function calculateNextRefresh(nextServerSideRefresh) {
             var adjustedNextServerSideRefresh = moment(nextServerSideRefresh).add(500, 'ms');
             var refreshIn = moment(adjustedNextServerSideRefresh).diff(moment());
@@ -165,8 +153,8 @@
         }
         
         function error(errorMessage) {
-            showError(errorMessage);
-            componentLayout.finishedLoading();
+            inlineError.show(errorMessage);
+            inlineLoading.finished();
             lastUpdated.refreshText();
 
             //setNextTimeout(10000);

@@ -19,7 +19,7 @@
         return viewModel;
     }
 
-    var menuTemplate = '<li class="top-level-item"><div class="current-item"></div><select class="submenu-options available-dashboards">{{#dashboards}}<option value="{{id}}">{{name}}</option>{{/dashboards}}</select></li><li class="top-level-item"><div class="current-item"></div><select class="submenu-options available-views"></select></li>';
+    var menuTemplate = '<li class="top-level-item"><div class="current-item"></div><select class="submenu-options available-dashboards">{{#dashboards}}<option value="{{id}}">{{name}}</option>{{/dashboards}}</select></li><li class="top-level-item view-options"><div class="current-item"></div><select class="submenu-options available-views"></select></li>';
 
     TLRGRP.BADGER.Dashboard.Menu = function(menuElement) {
         var dashboards = TLRGRP.BADGER.Dashboard.getAll();
