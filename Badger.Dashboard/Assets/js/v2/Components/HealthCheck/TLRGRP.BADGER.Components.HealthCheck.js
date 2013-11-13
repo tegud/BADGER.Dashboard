@@ -16,7 +16,6 @@
     }
     
     TLRGRP.BADGER.Dashboard.Components.HealthCheck = function (configuration) {
-        var currentTimeout;
         var refreshServerBaseUrl = 'http://' + configuration.host + ':' + configuration.port + '/';
         var inlineLoading = new TLRGRP.BADGER.Dashboard.ComponentModules.InlineLoading();
         var lastUpdated = new TLRGRP.BADGER.Dashboard.ComponentModules.LastUpdated();
@@ -32,6 +31,30 @@
                 serverList
             ]
         });
+        var dataStore = new TLRGRP.BADGER.Dashboard.DataStores.AjaxDataStore({
+            url: refreshServerBaseUrl + configuration.serverSet,
+            refresh: 2500,
+            callbacks: {
+                success: function (data) {
+                    serverList.updateStatus(data.groups);
+                    dataStore.setNewRefresh(calculateNextRefresh(data.nextRefreshAt));
+                },
+                error: function (errorInfo) {
+                    if (errorInfo && errorInfo.responseJSON && errorInfo.responseJSON.error) {
+                        inlineError.show(errorInfo.responseJSON.error);
+                    }
+                    else {
+                        inlineError.show('Cannot access health check server.');
+                    }
+
+                    dataStore.setNewRefresh(10000);
+                }
+            },
+            components: {
+                loading: inlineLoading,
+                lastUpdated: lastUpdated
+            }
+        });
 
         var stateMachine = nano.Machine({
             states: {
@@ -44,124 +67,37 @@
                 },
                 initialising: {
                     _onEnter: function () {
+                        var internalApi = this;
+
                         return $.ajax({
                             url: refreshServerBaseUrl + 'servers/' + configuration.serverSet,
                             success: function (groups) {
                                 stateMachine.handle('complete', groups);
-                                stateMachine.handle('start');
+                                dataStore.start(true);
                             },
                             error: function (errorInfo) {
-                                stateMachine.handle('error', errorInfo);
+                                internalApi.transitionToState('failedToInitialise', errorInfo);
                             }
                         });
                     },
                     complete: function (groups) {
                         serverList.setGroups(groups);
-                        
-                        this.transitionToState('paused');
                     }
                 },
                 failedToInitialise: {
                     _onEnter: function (errorInfo) {
                         if (errorInfo && errorInfo.responseJSON && errorInfo.responseJSON.error) {
-                            componentLayout.setContent('<h4 class="health-check-comms-error">' + errorInfo.responseJSON.error + '</h4>');
+                            componentLayout.append('<h4 class="health-check-comms-error">' + errorInfo.responseJSON.error + '</h4>');
                             return;
                         }
 
-                        componentLayout.setContent('<h4 class="health-check-comms-error">Could not access Health Check Server</h4>');
-                    }
-                },
-                paused: {
-                    _onEnter: function() {
-                        if (currentTimeout) {
-                            clearTimeout(currentTimeout);
-                        }
-                    },
-                    remove: function () {
-                        this.transitionToState('uninitialised');
-                    },
-                    refreshComplete: function (data) {
-                        success(data);
-                    },
-                    start: function() {
-                        this.transitionToState('refreshing');
-                    }
-                },
-                waiting: {
-                    _onEnter: function (timeout) {
-                        var internalMachine = this;
-
-                        currentTimeout = setTimeout(function() {
-                            internalMachine.transitionToState('refreshing');
-                        }, timeout);
-                    },
-                    stop: function () {
-                        this.transitionToState('paused');
-                    }
-                },
-                refreshFailed: {
-                    _onEnter: function (errorInfo) {
-                        if (errorInfo && errorInfo.responseJSON && errorInfo.responseJSON.error) {
-                            error(errorInfo.responseJSON.error);
-                        }
-                        else {
-                            error('Cannot access health check server.');
-                        }
-
-                        this.transitionToState('waiting', 10000);
-                    },
-                    stop: function() {
-                        this.transitionToState('paused');
-                    }
-                },
-                refreshing: {
-                    _onEnter: function () {
-                        var internalMachine = this;
-
-                        inlineLoading.loading();
-                        
-                        $.ajax({
-                            url: refreshServerBaseUrl + configuration.serverSet,
-                            success: function (data) {
-                                stateMachine.handle('refreshComplete', data);
-                            },
-                            error: function(errorInfo) {
-                                internalMachine.transitionToState('refreshFailed', errorInfo);
-                            }
-                        });
-                    },
-                    refreshComplete: function (data) {
-                        serverList.updateStatus(data.groups);
-
-                        lastUpdated.setLastUpdated(data.refreshedAt);
-
-                        inlineLoading.finished();
-                        inlineError.hide();
-                        
-                        this.transitionToState('waiting', calculateNextRefresh(data.nextRefreshAt));
-                    },
-                    stop: function () {
-                        this.transitionToState('paused');
+                        componentLayout.append('<h4 class="health-check-comms-error">Could not access Health Check Server</h4>');
                     }
                 }
             },
             initialState: 'uninitialised'
         });
-
-        function error(errorMessage) {
-            inlineError.show(errorMessage);
-            inlineLoading.finished();
-            lastUpdated.refreshText();
-        }
         
-        TLRGRP.messageBus.subscribe('TLRGRP.BADGER.PAGE.Hidden', function () {
-            stateMachine.handle('stop');
-        });
-
-        TLRGRP.messageBus.subscribe('TLRGRP.BADGER.PAGE.Visible', function () {
-            stateMachine.handle('start');
-        });
-
         return {
             render: function (container) {
                 return stateMachine.handle('initialise', container);

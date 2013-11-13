@@ -19,7 +19,11 @@
                 container.append(element);
             },
             setLastUpdated: function (serverSideLastUpdated) {
-                lastUpdated = moment(serverSideLastUpdated);
+                if (serverSideLastUpdated) {
+                    lastUpdated = moment(serverSideLastUpdated);
+                } else {
+                    lastUpdated = moment();
+                }
                 updateLastUpdated();
             },
             refreshText: function () {

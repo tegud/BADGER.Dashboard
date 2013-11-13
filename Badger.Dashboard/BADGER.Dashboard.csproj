@@ -150,6 +150,7 @@
     <Content Include="Assets\css\site.css" />
     <Content Include="Assets\css\V2\site.css" />
     <Content Include="Assets\graph.html" />
+    <Content Include="Assets\images\error.png" />
     <Content Include="Assets\images\glyphicons_367_expand.png" />
     <Content Include="Assets\images\glyphicons_369_collapse_top.png" />
     <Content Include="Assets\images\line-chart.png" />
@@ -208,6 +209,7 @@
     <Content Include="Assets\js\v2\ComponentModules\TLRGRP.BADGER.Dashboard.ComponentModules.ComponentLayout.js" />
     <Content Include="Assets\js\v2\Components\HealthCheck\TLRGRP.BADGER.ComponentModules.HealthCheckServerList.js" />
     <Content Include="Assets\js\v2\Components\HealthCheck\TLRGRP.BADGER.Components.HealthCheck.js" />
+    <Content Include="Assets\js\v2\Components\LineGraphAndCounter\TLRGRP.BADGER.Components.LineGraphAndCounter.js" />
     <Content Include="Assets\js\v2\dashboard\TLRGRP.BADGER.Dashboard.js" />
     <Content Include="Assets\js\v2\dashboard\TLRGRP.BADGER.Dashboard.Loader.js" />
     <Content Include="Assets\js\v2\LOADING.js" />

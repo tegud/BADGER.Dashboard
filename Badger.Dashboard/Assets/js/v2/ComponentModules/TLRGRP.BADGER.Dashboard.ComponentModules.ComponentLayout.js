@@ -6,7 +6,7 @@
     var validAppendLocations = ['component', 'content'];
 
     TLRGRP.BADGER.Dashboard.ComponentModules.ComponentLayout = function (configuration) {
-        var componentElement = $(Mustache.render('<div class="{{componentClass}}"><h3>{{title}}</h3></div>', configuration));
+        var componentElement = $(Mustache.render('<div class="dashboard-component {{componentClass}}"><h3>{{title}}</h3></div>', configuration));
         var contentElement;
 
         _(configuration.modules).forEach(function (module) {
@@ -35,6 +35,9 @@
         return {
             appendTo: function (container) {
                 componentElement.appendTo(container);
+            },
+            append: function(element) {
+                componentElement.append(element);
             }
         };
     };

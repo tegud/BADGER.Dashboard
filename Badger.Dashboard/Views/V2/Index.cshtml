@@ -84,8 +84,10 @@
     <script type="text/javascript" src="~/Assets/js/v2/ComponentModules/TLRGRP.BADGER.Dashboard.ComponentModules.InlineLoading.js"></script>
     <script type="text/javascript" src="~/Assets/js/v2/ComponentModules/TLRGRP.BADGER.Dashboard.ComponentModules.LastUpdated.js"></script>
     <script type="text/javascript" src="~/Assets/js/v2/ComponentModules/TLRGRP.BADGER.Dashboard.ComponentModules.Error.js"></script>
+    <script type="text/javascript" src="~/Assets/js/v2/DataStores/TLRGRP.BADGER.Dashboard.DataStores.AjaxDataStore.js"></script>
     <script type="text/javascript" src="~/Assets/js/v2/Components/HealthCheck/TLRGRP.BADGER.ComponentModules.HealthCheckServerList.js"></script>
     <script type="text/javascript" src="~/Assets/js/v2/Components/HealthCheck/TLRGRP.BADGER.Components.HealthCheck.js"></script>
+    <script type="text/javascript" src="~/Assets/js/v2/Components/LineGraphAndCounter/TLRGRP.BADGER.Components.LineGraphAndCounter.js"></script>
     <script type="text/javascript">
         (function() {
             var healthCheckServer = {
@@ -93,6 +95,13 @@
                 host: 'localhost',
                 port: 3000
             };
+
+            var lateRoomsServerStatus = new TLRGRP.BADGER.Dashboard.Components.HealthCheck({
+                serverSet: 'LateRooms',
+                title: 'LateRooms Front End Server Status',
+                host: healthCheckServer.host,
+                port: healthCheckServer.port
+            });
 
             TLRGRP.BADGER.Dashboard.register({
                 id: 'Overview',
@@ -107,6 +116,7 @@
                     }
                 }
             });
+
             TLRGRP.BADGER.Dashboard.register({
                 id: 'Status',
                 name: 'Status',
@@ -115,12 +125,7 @@
                         id: 'LateRooms',
                         name: 'LateRooms',
                         components: [
-                            new TLRGRP.BADGER.Dashboard.Components.HealthCheck({
-                                serverSet: 'LateRooms',
-                                title: 'LateRooms Front End Server Status',
-                                host: healthCheckServer.host,
-                                port: healthCheckServer.port
-                            })
+                            lateRoomsServerStatus
                         ]
                     },
                     AsiaRooms: {
@@ -137,33 +142,22 @@
                     }
                 }
             });
-            TLRGRP.BADGER.Dashboard.register({ id: 'Mobile' });
+
             TLRGRP.BADGER.Dashboard.register({
-                id: 'Requests',
+                id: 'BigScreen',
+                name: 'Big Screen',
                 views: {
-                    'Executing': {
-                        id: 'Executing',
-                        name: 'Requests Executing'
-                    },
-                    'PerSec': {
-                        id: 'PerSec',
-                        name: 'Requests/s'
-                    },
-                    'Execution Time': {
-                        id: 'ExecutionTime',
-                        name: 'Execution Time'
+                    Summary: {
+                        id: 'LateRooms',
+                        name: 'Late Rooms (Main)',
+                        components: [
+                            lateRoomsServerStatus,
+                            new TLRGRP.BADGER.Dashboard.Components.LineGraphAndCounter({
+                                title: 'Errors'
+                            })
+                        ]
                     }
                 }
-            });
-            TLRGRP.BADGER.Dashboard.register({ id: 'Performance' });
-            TLRGRP.BADGER.Dashboard.register({ id: 'Disk' });
-            TLRGRP.BADGER.Dashboard.register({
-                id: 'ByServer',
-                name: 'By Server'
-            });
-            TLRGRP.BADGER.Dashboard.register({
-                id: 'ByPage',
-                name: 'By Page'
             });
 
             new TLRGRP.BADGER.Dashboard.Menu($('#dashboard-menu'));

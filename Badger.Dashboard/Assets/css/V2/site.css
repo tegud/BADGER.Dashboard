@@ -155,7 +155,17 @@ h3 {margin: 0;padding: 0 }
 .double-take { background-color: green }
 .fade-out { background-color: skyblue }
 
-/* Graph Component */
+.dashboard-component { border: solid 1px #ddd;background-color: #fff;margin-bottom: 10px;padding: 10px 10px 10px 10px; }
+
+.component-content { position: relative; }
+
+.dashboard-component h4 {margin: 0;padding: 0 }
+
+.dashboard-component h3 {margin: 0 0 8px 0;padding: 0;display: inline-block; vertical-align: middle }
+
+/* Graph and Counter Component */
+.graph-and-counter {  }
+
 .v2-graph-container {height: 140px;margin-right: 145px;border: solid 1px #ddd;background-color: #fff; }
 
 .v2-graph-component h3 {margin-top: 5px;margin-bottom: 5px; }
@@ -164,14 +174,8 @@ h3 {margin: 0;padding: 0 }
 
 .v2-graph-counter-value {display: block;font-size: 3.6em;margin-top: 4px; }
 
-.component-content { position: relative; }
-
 /* Status Component */
-.health-check-component {padding: 10px 10px 0 10px;border: solid 1px #ddd;background-color: #fff; }
-
-.health-check-component h4 {margin: 0;padding: 0 }
-
-.health-check-component h3 {margin: 0 0 8px 0;padding: 0;display: inline-block; vertical-align: middle }
+.health-check-component { padding: 10px 10px 0 10px; }
 
 .health-check-server-groups-container { position: relative; }
 
