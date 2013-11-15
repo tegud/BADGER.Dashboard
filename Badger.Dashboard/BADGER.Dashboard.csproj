@@ -212,6 +212,7 @@
     <Content Include="Assets\js\v2\Components\LineGraphAndCounter\TLRGRP.BADGER.Components.LineGraphAndCounter.js" />
     <Content Include="Assets\js\v2\dashboard\TLRGRP.BADGER.Dashboard.js" />
     <Content Include="Assets\js\v2\dashboard\TLRGRP.BADGER.Dashboard.Loader.js" />
+    <Content Include="Assets\js\v2\DataStores\TLRGRP.BADGER.Dashboard.DataStores.AjaxDataStore.js" />
     <Content Include="Assets\js\v2\LOADING.js" />
     <Content Include="Assets\js\v2\menu\TLRGRP.BADGER.Dashboard.Menu.js" />
     <Content Include="Assets\js\v2\menu\TLRGRP.BADGER.Dashboard.ViewSelector.js" />

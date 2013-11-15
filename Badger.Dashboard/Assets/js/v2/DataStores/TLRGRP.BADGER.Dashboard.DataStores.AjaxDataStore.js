@@ -15,7 +15,7 @@
             states: {
                 stopped: {
                     _onEnter: function () {
-                        clearTimeout();
+                        clearCurrentTimeout();
                     },
                     start: function (doItNow) {
                         if (doItNow) {
@@ -74,7 +74,7 @@
                     },
                     refreshComplete: function (data) {
                         executeSuccessCallbackIfSpecified(data);
-
+                        
                         if (currentOptions.components.loading) {
                             currentOptions.components.loading.finished();
                         }
@@ -98,7 +98,7 @@
             initialState: 'stopped'
         });
 
-        function clearTimeout() {
+        function clearCurrentTimeout() {
             if (currentTimeout) {
                 clearTimeout(currentTimeout);
             }

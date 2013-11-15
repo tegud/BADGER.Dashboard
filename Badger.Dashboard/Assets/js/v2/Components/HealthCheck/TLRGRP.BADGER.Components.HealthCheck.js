@@ -36,6 +36,7 @@
             refresh: 2500,
             callbacks: {
                 success: function (data) {
+                    inlineError.hide();
                     serverList.updateStatus(data.groups);
                     dataStore.setNewRefresh(calculateNextRefresh(data.nextRefreshAt));
                 },
