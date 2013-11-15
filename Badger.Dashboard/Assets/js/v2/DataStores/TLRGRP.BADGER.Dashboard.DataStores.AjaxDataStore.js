@@ -130,11 +130,11 @@
 
         if (currentOptions.pauseWhenNotVisible) {
             TLRGRP.messageBus.subscribe('TLRGRP.BADGER.PAGE.Hidden', function () {
-                stateMachine.handle('stop');
+                stateMachine.handle('pause');
             });
 
             TLRGRP.messageBus.subscribe('TLRGRP.BADGER.PAGE.Visible', function () {
-                stateMachine.handle('start');
+                stateMachine.handle('unpause');
             });
         }
 

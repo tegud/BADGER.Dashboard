@@ -158,6 +158,7 @@
     <Content Include="Assets\images\refresh.png" />
     <Content Include="Assets\images\status-logo.png" />
     <Content Include="Assets\images\togglemenu.png" />
+    <Content Include="Assets\images\updownindicators.png" />
     <Content Include="Assets\js\ladda.js" />
     <Content Include="Assets\js\lib\angular.min.js" />
     <Content Include="Assets\js\lib\lodash.js" />
@@ -209,6 +210,8 @@
     <Content Include="Assets\js\v2\ComponentModules\TLRGRP.BADGER.Dashboard.ComponentModules.ComponentLayout.js" />
     <Content Include="Assets\js\v2\Components\HealthCheck\TLRGRP.BADGER.ComponentModules.HealthCheckServerList.js" />
     <Content Include="Assets\js\v2\Components\HealthCheck\TLRGRP.BADGER.Components.HealthCheck.js" />
+    <Content Include="Assets\js\v2\Components\LineGraphAndCounter\TLRGRP.BADGER.ComponentModules.Counter.js" />
+    <Content Include="Assets\js\v2\Components\LineGraphAndCounter\TLRGRP.BADGER.ComponentModules.LineGraph.js" />
     <Content Include="Assets\js\v2\Components\LineGraphAndCounter\TLRGRP.BADGER.Components.LineGraphAndCounter.js" />
     <Content Include="Assets\js\v2\dashboard\TLRGRP.BADGER.Dashboard.js" />
     <Content Include="Assets\js\v2\dashboard\TLRGRP.BADGER.Dashboard.Loader.js" />

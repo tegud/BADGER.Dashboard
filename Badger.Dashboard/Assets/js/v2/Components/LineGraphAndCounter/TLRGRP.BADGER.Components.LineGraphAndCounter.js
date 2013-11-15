@@ -2,37 +2,6 @@
     'use strict';
 
     TLRGRP.namespace('TLRGRP.BADGER.Dashboard.Components');
-    TLRGRP.namespace('TLRGRP.BADGER.Dashboard.ComponentMoudles');
-
-    TLRGRP.BADGER.Dashboard.ComponentMoudles.Counter = function () {
-        var element = $('<div class="v2-graph-counter">Errors in last 10mins</div>');
-        var counterValueElement = $('<strong class="v2-graph-counter-value">-</strong>').appendTo(element);
-
-        return {
-            appendTo: function (container) {
-                container.append(element);
-            },
-            appendToLocation: function () {
-                return 'content';
-            },
-            setValue: function (value) {
-                counterValueElement.text(value);
-            }
-        };
-    };
-
-    TLRGRP.BADGER.Dashboard.ComponentMoudles.LineGraph = function () {
-        var element = $('<div class="v2-graph-container"></div>');
-
-        return {
-            appendTo: function (container) {
-                container.append(element);
-            },
-            appendToLocation: function () {
-                return 'content';
-            }
-        };
-    };
 
     TLRGRP.BADGER.Dashboard.Components.LineGraphAndCounter = function (configuration) {
         var inlineLoading = new TLRGRP.BADGER.Dashboard.ComponentModules.InlineLoading();
