@@ -159,6 +159,7 @@
     <Content Include="Assets\images\status-logo.png" />
     <Content Include="Assets\images\togglemenu.png" />
     <Content Include="Assets\images\updownindicators.png" />
+    <Content Include="Assets\images\updownindicators_24.png" />
     <Content Include="Assets\js\ladda.js" />
     <Content Include="Assets\js\lib\angular.min.js" />
     <Content Include="Assets\js\lib\lodash.js" />
