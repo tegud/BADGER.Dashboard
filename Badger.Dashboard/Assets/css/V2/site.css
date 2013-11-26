@@ -236,7 +236,7 @@ h3 {margin: 0;padding: 0 }
 
 .errors-by-hour-link { display: block;padding-top: 2px;float: left; }
 
-.errors-by-hour-counter { float: right;padding-top: 2px; }
+.errors-by-hour-counter { float: right;padding-top: 3px;font-size: 0.9em;width: 44px; }
 
 .errors-by-hour-graph { border: solid 1px #000;height: 20px;margin: 0 50px 0 110px; }
 

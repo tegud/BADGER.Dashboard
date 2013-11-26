@@ -5,12 +5,16 @@
 
     var defaultOptions = {
         pauseWhenNotVisible: true,
+        components: {},
         refresh: 10000
     };
 
     TLRGRP.BADGER.Dashboard.DataStores.AjaxDataStore = function (options) {
         var currentOptions = $.extend(true, {}, defaultOptions, options);
         var currentTimeout;
+        var defaultAjaxOptions = {
+            type: 'GET'
+        };
         var stateMachine = nano.Machine({
             states: {
                 stopped: {
@@ -62,15 +66,26 @@
                             currentOptions.components.loading.loading();
                         }
 
-                        $.ajax({
+                        var ajaxOptions = {
                             url: currentOptions.url,
-                            success: function (data) {
+                            data: currentOptions.data,
+                            success: function(data) {
                                 stateMachine.handle('refreshComplete', data);
                             },
-                            error: function (errorInfo) {
+                            error: function(errorInfo) {
                                 stateMachine.handle('refreshFailed', errorInfo);
                             }
-                        });
+                        };
+
+                        if (currentOptions.type) {
+                            ajaxOptions.type = currentOptions.type;
+                        }
+
+                        if (currentOptions.contentType) {
+                            ajaxOptions.contentType = currentOptions.contentType;
+                        }
+
+                        $.ajax($.extend(true, {}, defaultAjaxOptions, ajaxOptions));
                     },
                     refreshComplete: function (data) {
                         executeSuccessCallbackIfSpecified(data);
