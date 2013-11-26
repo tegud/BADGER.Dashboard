@@ -226,6 +226,20 @@ h3 {margin: 0;padding: 0 }
 /* Error Graph Component */
 .error-graph-summary-text { position: absolute;top: 16px;right: 14px;font-style: italic }
 
+/* Error Components */
+
+.errors-by-hour-selector { width: 50%; }
+
+.errors-by-hour-list { margin: 0;padding: 0;list-style: none;-webkit-column-count:2;-moz-column-count:2;column-count:2; }
+
+.errors-by-hour-list > li { height: 24px;clear: both;padding: 4px 0; }
+
+.errors-by-hour-link { display: block;padding-top: 2px;float: left; }
+
+.errors-by-hour-counter { float: right;padding-top: 2px; }
+
+.errors-by-hour-graph { border: solid 1px #000;height: 20px;margin: 0 50px 0 110px; }
+
 @media (max-width: 424px) {
     .inline-loading-container { float: right; }
 

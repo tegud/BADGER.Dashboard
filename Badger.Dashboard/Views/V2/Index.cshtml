@@ -91,6 +91,7 @@
     <script type="text/javascript" src="~/Assets/js/v2/Components/LineGraphAndCounter/TLRGRP.BADGER.ComponentModules.LineGraph.js"></script>
     <script type="text/javascript" src="~/Assets/js/v2/Components/LineGraphAndCounter/TLRGRP.BADGER.ComponentModules.Counter.js"></script>
     <script type="text/javascript" src="~/Assets/js/v2/Components/LineGraphAndCounter/TLRGRP.BADGER.Components.LineGraphAndCounter.js"></script>
+    <script type="text/javascript" src="~/Assets/js/v2/Components/Errors/TLRGRP.BADGER.Components.ErrorsByHour.js"></script>
     <script type="text/javascript">
         (function() {
             var healthCheckServer = {
@@ -158,6 +159,20 @@
                             new TLRGRP.BADGER.Dashboard.Components.LineGraphAndCounter({
                                 title: 'Errors'
                             })
+                        ]
+                    }
+                }
+            });
+
+            TLRGRP.BADGER.Dashboard.register({
+                id: 'Errors',
+                name: 'Errors',
+                views: {
+                    Summary: {
+                        id: 'ErrorsByTime',
+                        name: 'Errors by Time',
+                        components: [
+                            new TLRGRP.BADGER.Dashboard.Components.ErrorsByHour({})
                         ]
                     }
                 }
