@@ -11,9 +11,10 @@
     }
 
     TLRGRP.BADGER.Dashboard.Components.ErrorsByHour = function (configuration) {
+        var logstashPath = '/logstash-' + moment().format('YYYY.MM.DD') + '/_search';
         var inlineLoading = new TLRGRP.BADGER.Dashboard.ComponentModules.InlineLoading();
         var dataStore = new TLRGRP.BADGER.Dashboard.DataStores.AjaxDataStore({
-            url: 'http://10.44.35.21:9200/logstash-2013.11.26/_search',
+            url: 'http://10.44.35.21:9200' + logstashPath,
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
@@ -33,19 +34,13 @@
             callbacks: {
                 success: function (data) {
                     var hourCounts = {};
-                    
+
                     _(data.facets.byHour.entries).each(function (item) {
                         var hour = new Date(item.time).getHours();
                         hourCounts[padHour(hour) + ':00'] = item.count;
                     });
 
-                    $('.errors-by-hour-list li').each(function () {
-                        var li = $(this);
-                        var hour = li.data('hourStart');
-                        var count = hourCounts[hour];
-                        var counterElement = $('.errors-by-hour-counter', li);
-                        counterElement.text(count || 0);
-                    });
+                    hourList.setData(hourCounts);
                 },
                 error: function (errorInfo) {
                 }
@@ -54,17 +49,18 @@
                 loading: inlineLoading
             }
         });
-        
+
+        var hourList = new TLRGRP.BADGER.Dashboard.ComponentModules.ErrorHourList({});
+
         var componentLayout = new TLRGRP.BADGER.Dashboard.ComponentModules.ComponentLayout({
             title: 'By Hour',
             componentClass: 'errors-by-hour-selector',
             modules: [
                 inlineLoading,
-                new TLRGRP.BADGER.Dashboard.ComponentModules.ErrorHourList({})
+                hourList
             ]
         });
-        
-        
+
         var stateMachine = nano.Machine({
             states: {
                 uninitialised: {

@@ -25,12 +25,22 @@
     }
 
     TLRGRP.BADGER.Dashboard.ComponentModules.ErrorHourList = function() {
-
+        var hoursList;
+        
         return {
             appendTo: function(componentElement) {
-                componentElement.append(Mustache.render('<ul class="errors-by-hour-list">{{#hours}}<li data-hour-start="{{start}}"><a href=""><div class="errors-by-hour-link">{{start}} - {{end}}</div><div class="errors-by-hour-counter"></div><div class="errors-by-hour-graph"></div></a></li>{{/hours}}</ul>', {
+                hoursList = $(Mustache.render('<ul class="errors-by-hour-list">{{#hours}}<li data-hour-start="{{start}}"><a href=""><div class="errors-by-hour-link">{{start}} - {{end}}</div><div class="errors-by-hour-counter"></div><div class="errors-by-hour-graph"></div></a></li>{{/hours}}</ul>', {
                     hours: buildHours()
-                }));
+                })).appendTo(componentElement);
+            },
+            setData: function (hourCounts) {
+                $('li', hoursList).each(function () {
+                    var li = $(this);
+                    var hour = li.data('hourStart');
+                    var count = hourCounts[hour];
+                    var counterElement = $('.errors-by-hour-counter', li);
+                    counterElement.text(count || 0);
+                });
             }
         };
     };

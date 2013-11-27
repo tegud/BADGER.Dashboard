@@ -209,6 +209,7 @@
     <Content Include="Assets\js\v2\ComponentModules\TLRGRP.BADGER.Dashboard.ComponentModules.InlineLoading.js" />
     <Content Include="Assets\js\v2\ComponentModules\TLRGRP.BADGER.Dashboard.ComponentModules.LastUpdated.js" />
     <Content Include="Assets\js\v2\ComponentModules\TLRGRP.BADGER.Dashboard.ComponentModules.ComponentLayout.js" />
+    <Content Include="Assets\js\v2\Components\Errors\TLRGRP.BADGER.Components.ErrorList.js" />
     <Content Include="Assets\js\v2\Components\Errors\TLRGRP.BADGER.ComponentModules.ErrorHourList.js" />
     <Content Include="Assets\js\v2\Components\Errors\TLRGRP.BADGER.Components.ErrorsByHour.js" />
     <Content Include="Assets\js\v2\Components\HealthCheck\TLRGRP.BADGER.ComponentModules.HealthCheckServerList.js" />
