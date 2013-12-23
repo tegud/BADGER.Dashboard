@@ -145,6 +145,18 @@
                                 port: healthCheckServer.port
                             })
                         ]
+                    },
+                    Connectivity: {
+                        id: 'Connectivity',
+                        name: 'Connectivity',
+                        components: [
+                            new TLRGRP.BADGER.Dashboard.Components.HealthCheck({
+                                serverSet: 'Connectivity',
+                                title: 'Connectivity Front End Server Status',
+                                host: healthCheckServer.host,
+                                port: healthCheckServer.port
+                            })
+                        ]
                     }
                 }
             });
