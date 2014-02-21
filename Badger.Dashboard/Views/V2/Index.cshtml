@@ -202,6 +202,69 @@
                 }
             });
 
+
+            TLRGRP.BADGER.Dashboard.register({
+                id: 'Bookings',
+                name: 'Bookings',
+                views: {
+                    'LateRooms.com': {
+                        id: 'LateRooms',
+                        name: 'LateRooms.com Bookings',
+                        components: [
+                            new TLRGRP.BADGER.Dashboard.Components.LineGraphAndCounter({
+                                title: 'Bookings',
+                                summaryText: 'Bookings per minute on LateRooms.com (WEB)',
+                                expression: 'sum(domain_events)&step=6e4&limit=60',
+                                counterTitle: 'Bookings in last 10mins',
+                                counter: {
+                                    title: 'Bookings made in last 10mins'
+                                },
+                                graph: {
+                                    className: 'bookings-graph',
+                                    lineColor: 'green',
+                                    upClass: 'good',
+                                    downClass: 'bad'
+                                }
+                            }),
+                            new TLRGRP.BADGER.Dashboard.Components.LineGraphAndCounter({
+                                title: 'Commission',
+                                summaryText: 'Total commission generated per minute on LateRooms.com (WEB)',
+                                expression: 'sum(domain_events(commission))&step=6e4&limit=60',
+                                counterTitle: 'Commission in last 10mins',
+                                counter: {
+                                    title: 'Commission made in last 10mins',
+                                    className: 'commission-graph-counter',
+                                    prefix: '£'
+                                },
+                                graph: {
+                                    className: 'commission-graph',
+                                    lineColor: '#411485',
+                                    upClass: 'good',
+                                    downClass: 'bad'
+                                }
+                            }),
+                            new TLRGRP.BADGER.Dashboard.Components.LineGraphAndCounter({
+                                title: 'Total Transaction Value',
+                                summaryText: 'TTV generated per minute on LateRooms.com (WEB)',
+                                expression: 'sum(domain_events(totalAmountGbp))&step=6e4&limit=60',
+                                counterTitle: 'Commission in last 10mins',
+                                counter: {
+                                    title: 'TTV in last 10mins',
+                                    className: 'commission-graph-counter',
+                                    prefix: '£'
+                                },
+                                graph: {
+                                    className: 'commission-graph',
+                                    lineColor: 'blue',
+                                    upClass: 'good',
+                                    downClass: 'bad'
+                                }
+                            })
+                        ]
+                    }
+                }
+            });
+
             TLRGRP.BADGER.Dashboard.register({
                 id: 'Errors',
                 name: 'Errors',
