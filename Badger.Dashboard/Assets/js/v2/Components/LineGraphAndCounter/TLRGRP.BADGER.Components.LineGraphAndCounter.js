@@ -6,8 +6,8 @@
     TLRGRP.BADGER.Dashboard.Components.LineGraphAndCounter = function (configuration) {
         var inlineLoading = new TLRGRP.BADGER.Dashboard.ComponentModules.InlineLoading();
         
-        var counter = new TLRGRP.BADGER.Dashboard.ComponentModules.Counter();
-        var lineGraph = TLRGRP.BADGER.Dashboard.ComponentModules.LineGraph();
+        var counter = new TLRGRP.BADGER.Dashboard.ComponentModules.Counter(configuration.counter);
+        var lineGraph = TLRGRP.BADGER.Dashboard.ComponentModules.LineGraph(configuration.graph);
 
         var componentLayout = new TLRGRP.BADGER.Dashboard.ComponentModules.ComponentLayout({
             title: configuration.title,
@@ -18,14 +18,16 @@
                 lineGraph,
                 {
                     appendTo: function (container) {
-                        container.append($('<div class="error-graph-summary-text">Errors per one minute on LateRooms.com (WEB)</div>'));
+                        if (configuration.summaryText) {
+                            container.append($('<div class="error-graph-summary-text">' + configuration.summaryText + '</div>'));
+                        }
                     }
                 }
             ]
         });
         
         var dataStore = new TLRGRP.BADGER.Dashboard.DataStores.AjaxDataStore({
-            url: 'http://10.44.22.158:1081/1.0/metric?expression=sum(lr_errors)&step=6e4&limit=60',
+            url: 'http://10.44.35.20:1081/1.0/metric?expression=' + configuration.expression,
             refresh: 5000,
             callbacks: {
                 success: function (data) {

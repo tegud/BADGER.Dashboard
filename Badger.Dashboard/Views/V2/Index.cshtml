@@ -171,7 +171,31 @@
                         components: [
                             lateRoomsServerStatus,
                             new TLRGRP.BADGER.Dashboard.Components.LineGraphAndCounter({
-                                title: 'Errors'
+                                title: 'Errors',
+                                summaryText: 'Errors per one minute on LateRooms.com (WEB)',
+                                expression: 'sum(lr_errors)&step=6e4&limit=60',
+                                counter: {
+                                    title: 'Errors in last 10mins',
+                                    upClass: 'bad',
+                                    downClass: 'good'
+                                }
+                            }),
+                            new TLRGRP.BADGER.Dashboard.Components.LineGraphAndCounter({
+                                title: 'Commission',
+                                summaryText: 'Total commission generated per minute on LateRooms.com (WEB)',
+                                expression: 'sum(domain_events(commission))&step=6e4&limit=60',
+                                counterTitle: 'Commission in last 10mins',
+                                counter: {
+                                    title: 'Commission made in last 10mins',
+                                    className: 'commission-graph-counter',
+                                    prefix: '£'
+                                },
+                                graph: {
+                                    className: 'commission-graph',
+                                    lineColor: '#411485',
+                                    upClass: 'good',
+                                    downClass: 'bad'
+                                }
                             })
                         ]
                     }

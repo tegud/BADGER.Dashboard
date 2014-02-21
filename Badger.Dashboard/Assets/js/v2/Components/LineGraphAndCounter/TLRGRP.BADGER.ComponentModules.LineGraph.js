@@ -16,7 +16,7 @@
 
     TLRGRP.BADGER.Dashboard.ComponentModules.LineGraph = function (options) {
         var currentOptions = $.extend(true, {}, defaultOptions, options);
-        var element = $('<div class="v2-graph-container"></div>');
+        var element = $('<div class="v2-graph-container' + (currentOptions.className ? ' ' + currentOptions.className : '') + '"></div>');
         var svg;
         var x;
         var y;
@@ -119,7 +119,7 @@
 						.datum(data)
 					    .attr('id', 'error-line')
 						.attr("class", "line")
-						.attr("style", "stroke: red;")
+						.attr("style", "stroke: " + (currentOptions.lineColor || 'red') + ";")
 						.attr("d", line);
                 }
             }

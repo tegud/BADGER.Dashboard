@@ -195,6 +195,8 @@ h3 {margin: 0;padding: 0 }
 
 .v2-graph-counter-indicator.bad { background-position: -39px 0; }
 
+.v2-graph-counter-indicator.good { background-position: -18px 0; }
+
 .v2-graph-counter-indicator.down { transform: rotate(180deg);-webkit-transform: rotate(180deg); }
 
 /* Status Component */
@@ -210,9 +212,9 @@ h3 {margin: 0;padding: 0 }
 
 .health-check-group-item {display: inline-block;margin: 0 10px 10px 0;border: solid 1px #ddd;background-color: #eee;padding: 10px;vertical-align: top}
 
-.health-check-group-server-list {margin: 8px 0 0 0;padding: 0;list-style: none;max-width: 342px; }
+.health-check-group-server-list {margin: 8px 0 0 0;padding: 0;list-style: none; }
 
-.health-check-group-server-item {border: solid 1px #ddd;margin: 0 5px 5px 0;text-align: center;width: 60px;padding: 15px 0;display: inline-block;font-weight: bold;font-size: 1.5em; }
+.health-check-group-server-item {border: solid 1px #ddd;margin: 0 5px 5px 0;text-align: center;width: 24px;padding: 10px 0;display: inline-block;font-weight: bold;font-size: 0.8em; }
 
 .health-check-group-server-item.ok { background-color: #008000 }
 .health-check-group-server-item.error { background-color: #f00 }
@@ -239,6 +241,10 @@ h3 {margin: 0;padding: 0 }
 .errors-by-hour-counter { float: right;padding-top: 3px;font-size: 0.9em;width: 44px; }
 
 .errors-by-hour-graph { border: solid 1px #000;height: 20px;margin: 0 50px 0 110px; }
+
+/* Commission Graph */
+
+.commission-graph-counter .v2-graph-counter-value { font-size: 1.7em;margin-top: 7px; }
 
 @media (max-width: 424px) {
     .inline-loading-container { float: right; }
