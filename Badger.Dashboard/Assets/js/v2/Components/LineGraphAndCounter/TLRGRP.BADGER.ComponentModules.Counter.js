@@ -16,7 +16,11 @@
             appendToLocation: function () {
                 return 'content';
             },
-            setValue: function (value) {
+            setValue: function (data) {
+                var value = _(data.slice(0).reverse()).first(configuration.numberOfPreviousEntriesToSum || 10).reduce(function (total, item) {
+                    return total + item.value;
+                }, 0);
+
                 counterValueElement.text((configuration.prefix || '') + value);
 
                 if (lastValue && lastValue !== value) {

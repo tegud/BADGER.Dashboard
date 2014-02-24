@@ -31,11 +31,7 @@
             refresh: 5000,
             callbacks: {
                 success: function (data) {
-                    var sum = _(data.slice(0).reverse()).first(10).reduce(function (total, item) {
-                        return total + item.value;
-                    }, 0);
-
-                    counter.setValue(sum);
+                    counter.setValue(data);
                     lineGraph.setData(data);
                 }
             },
