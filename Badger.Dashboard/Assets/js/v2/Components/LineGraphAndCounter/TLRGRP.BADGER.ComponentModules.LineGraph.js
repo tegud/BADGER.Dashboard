@@ -17,6 +17,7 @@
     TLRGRP.BADGER.Dashboard.ComponentModules.LineGraph = function (options) {
         var currentOptions = $.extend(true, {}, defaultOptions, options);
         var element = $('<div class="v2-graph-container' + (currentOptions.className ? ' ' + currentOptions.className : '') + '"></div>');
+        var graphReady = jQuery.Deferred();
         var svg;
         var x;
         var y;
@@ -81,47 +82,53 @@
                 element.appendTo(container);
 
                 setTimeout(function () {
+                    console.log('append element');
+                    
                     if (!currentOptions.dimensions.width || !currentOptions.dimensions.height) {
                         calculateDimensionsFromElement();
                     }
                     
                     appendCanvas();
                     appendAxis();
+                    graphReady.resolve();
                 }, 0);
             },
             appendToLocation: function () {
                 return 'content';
             },
             setData: function (data) {
-                for (var m = 0; m < data.length; m++) {
-                    data[m].time = new Date(data[m].time);
-                }
+                console.log('set data');
+                $.when(graphReady).then(function() {
+                    for (var m = 0; m < data.length; m++) {
+                        data[m].time = new Date(data[m].time);
+                    }
 
-                var dsXExtent = d3.extent(data, function (d) { return d.time; });
-                var dsYExtent = d3.extent(data, function (d) { return d.value; });
+                    var dsXExtent = d3.extent(data, function (d) { return d.time; });
+                    var dsYExtent = d3.extent(data, function (d) { return d.value; });
 
-                x.domain(dsXExtent);
-                y.domain(dsYExtent);
+                    x.domain(dsXExtent);
+                    y.domain(dsYExtent);
 
-                svg.select(".x.axis").call(xAxis);
-                svg.select(".y.axis").call(yAxis);
+                    svg.select(".x.axis").call(xAxis);
+                    svg.select(".y.axis").call(yAxis);
 
-                var elementId = 'error-line',
-                    lineElement = svg.select("#" + elementId);
+                    var elementId = 'error-line',
+                        lineElement = svg.select("#" + elementId);
 
-                if (lineElement[0][0]) {
-                    lineElement
-                       .datum(data)
-                       .attr("d", line);
-                }
-                else {
-                    svg.append("path")
-						.datum(data)
-					    .attr('id', 'error-line')
-						.attr("class", "line")
-						.attr("style", "stroke: " + (currentOptions.lineColor || 'red') + ";")
-						.attr("d", line);
-                }
+                    if (lineElement[0][0]) {
+                        lineElement
+                           .datum(data)
+                           .attr("d", line);
+                    }
+                    else {
+                        svg.append("path")
+                            .datum(data)
+                            .attr('id', 'error-line')
+                            .attr("class", "line")
+                            .attr("style", "stroke: " + (currentOptions.lineColor || 'red') + ";")
+                            .attr("d", line);
+                    }
+                });
             }
         };
     };
