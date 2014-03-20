@@ -121,6 +121,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LiveEventController.cs" />
     <Compile Include="Controllers\V2Controller.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -147,6 +148,7 @@
     <Content Include="Assets\css\jquery-ui\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Assets\css\jquery-ui\jquery-ui-smoothness.css" />
     <Content Include="Assets\css\ladda.css" />
+    <Content Include="Assets\css\liveevents.css" />
     <Content Include="Assets\css\site.css" />
     <Content Include="Assets\css\V2\site.css" />
     <Content Include="Assets\graph.html" />
@@ -168,6 +170,7 @@
     <Content Include="Assets\js\lib\jquery-ui.js" />
     <Content Include="Assets\js\lib\mustache.js" />
     <Content Include="Assets\js\lib\nanomachine.js" />
+    <Content Include="Assets\js\liveevents.js" />
     <Content Include="Assets\js\TLRGRP.BADGER.utilities.js" />
     <Content Include="Assets\js\lib\d3.min.js" />
     <Content Include="Assets\js\lib\jquery-2.0.0.js" />
@@ -249,6 +252,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Layouts\_Layout.cshtml" />
     <Content Include="Views\V2\Index.cshtml" />
+    <Content Include="Views\LiveEvent\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
