@@ -21,6 +21,10 @@
                     return total + item.value;
                 }, 0);
 
+                if (configuration.precision === 0) {
+                    value = Math.floor(value);
+                }
+
                 counterValueElement.text((configuration.prefix || '') + value);
 
                 if (lastValue && lastValue !== value) {
