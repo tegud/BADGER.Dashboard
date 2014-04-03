@@ -183,7 +183,7 @@
                             new TLRGRP.BADGER.Dashboard.Components.LineGraphAndCounter({
                                 title: 'Commission',
                                 summaryText: 'Total commission generated per minute on LateRooms.com (WEB)',
-                                expression: 'sum(domain_events(commissionValue))&step=6e4&limit=60',
+                                expression: 'sum(domain_events(commissionValue).eq(isTestBooking, false))&step=6e4&limit=60',
                                 counterTitle: 'Commission in last 10mins',
                                 counter: {
                                     title: 'Commission made in last 10mins',
@@ -215,10 +215,11 @@
                             new TLRGRP.BADGER.Dashboard.Components.LineGraphAndCounter({
                                 title: 'Bookings',
                                 summaryText: 'Bookings per minute on LateRooms.com (WEB)',
-                                expression: 'sum(domain_events)&step=6e4&limit=60',
+                                expression: 'sum(domain_events.eq(isTestBooking, false))&step=6e4&limit=60',
                                 counterTitle: 'Bookings in last 10mins',
                                 counter: {
-                                    title: 'Bookings made in last 10mins'
+                                    title: 'Bookings made in last 10mins',
+                                    precision: 0
                                 },
                                 graph: {
                                     className: 'bookings-graph',
@@ -230,12 +231,13 @@
                             new TLRGRP.BADGER.Dashboard.Components.LineGraphAndCounter({
                                 title: 'Commission',
                                 summaryText: 'Total commission generated per minute on LateRooms.com (WEB)',
-                                expression: 'sum(domain_events(commission))&step=6e4&limit=60',
+                                expression: 'sum(domain_events(commission).eq(isTestBooking, false))&step=6e4&limit=60',
                                 counterTitle: 'Commission in last 10mins',
                                 counter: {
                                     title: 'Commission made in last 10mins',
                                     className: 'commission-graph-counter',
-                                    prefix: '£'
+                                    prefix: '£',
+                                    precision: 0
                                 },
                                 graph: {
                                     className: 'commission-graph',
@@ -247,12 +249,13 @@
                             new TLRGRP.BADGER.Dashboard.Components.LineGraphAndCounter({
                                 title: 'Total Transaction Value',
                                 summaryText: 'TTV generated per minute on LateRooms.com (WEB)',
-                                expression: 'sum(domain_events(totalAmountGbp))&step=6e4&limit=60',
+                                expression: 'sum(domain_events(totalAmountGbp).eq(isTestBooking, false))&step=6e4&limit=60',
                                 counterTitle: 'Commission in last 10mins',
                                 counter: {
                                     title: 'TTV in last 10mins',
                                     className: 'commission-graph-counter',
-                                    prefix: '£'
+                                    prefix: '£',
+                                    precision: 0
                                 },
                                 graph: {
                                     className: 'commission-graph',
