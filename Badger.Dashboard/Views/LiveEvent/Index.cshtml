@@ -10,7 +10,7 @@
         <input type="submit" value="Watch Events"></input>
         <datalist id="predefinedqueries">
             <option value="lr_errors(source_host,pagetype,language,Exception)"></option>
-            <option value="domain_events(commission, nights, rooms, affiliateName, hotelProvider)"></option>
+            <option value="domain_events(commission, nights, rooms, affiliateName, hotelProvider, commissionValue, bookerCountry)"></option>
             <option value="lr_errors(source_host,pagetype,language,Exception)"></option>
             <option value="hotel_acquisitions_errors(source_host,Exception))"></option>
         </datalist>
@@ -23,6 +23,11 @@
     </table>
 </div>
 
+
+@section Stylesheet
+{
+    <link rel="stylesheet" href="~/Assets/css/liveevents.css" />
+}
 
 @section Javascript
 {
