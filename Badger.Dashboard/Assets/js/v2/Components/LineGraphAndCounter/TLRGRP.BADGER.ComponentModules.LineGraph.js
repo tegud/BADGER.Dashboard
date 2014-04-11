@@ -116,8 +116,8 @@
                     var elementId = 'error-line',
                         lineElement = svg.select("#" + elementId),
                         highlightedRegion = svg.select('#highlight-region'),
-                        now = moment(data[data.length - 1].time).toDate().getTime(),
-                        tenMinutesAgo = moment(data[data.length - 1].time).subtract('minutes', 10).toDate().getTime();
+                        endOfHighlightedRegion = moment(data[data.length - 1].time).toDate().getTime(),
+                        startOfHighlightedRegion = moment(data[data.length - 1].time).subtract('minutes', 10).toDate().getTime();
 
                     if (lineElement[0][0]) {
                         lineElement
@@ -126,9 +126,9 @@
                         
                         if (highlightedRegion[0][0]) {
                             highlightedRegion
-                                .attr('x', x(tenMinutesAgo))
+                                .attr('x', x(startOfHighlightedRegion))
                                 .attr('y', -currentOptions.dimensions.margin.top)
-                                .attr('width', x(now) - x(tenMinutesAgo));
+                                .attr('width', x(endOfHighlightedRegion) - x(startOfHighlightedRegion));
                         }
                     }
                     else {
@@ -142,9 +142,9 @@
                         var highlightRegion = svg
                             .append("rect")
                             .attr('id', 'highlight-region')
-                            .attr('x', x(tenMinutesAgo))
+                            .attr('x', x(startOfHighlightedRegion))
                             .attr('y', -currentOptions.dimensions.margin.top)
-                            .attr('width', x(now) - x(tenMinutesAgo))
+                            .attr('width', x(endOfHighlightedRegion) - x(startOfHighlightedRegion))
                             .attr('height', currentOptions.dimensions.height + currentOptions.dimensions.margin.bottom + currentOptions.dimensions.margin.top)
                             .attr('class', 'highlighted-region');
                         
