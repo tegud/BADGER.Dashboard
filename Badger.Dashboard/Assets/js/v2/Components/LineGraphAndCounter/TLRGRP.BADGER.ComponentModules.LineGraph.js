@@ -23,6 +23,7 @@
         var y;
         var xAxis;
         var yAxis;
+        var xAxisElement;
         var line = d3.svg.line()
             .x(function(d) {
                 return x(d.time);
@@ -61,7 +62,7 @@
             xAxis = d3.svg.axis().scale(x).orient("bottom");
             yAxis = d3.svg.axis().scale(y).orient("left");
 
-            svg.append("g")
+            xAxisElement = svg.append("g")
                .attr("class", "x axis")
                .attr("transform", "translate(0," + dimensions.height + ")")
                .call(xAxis);
@@ -138,15 +139,16 @@
                             .attr("style", "stroke: " + (currentOptions.lineColor || 'red') + ";")
                             .attr("d", line);
 
-                        svg
+                        var highlightRegion = svg
                             .append("rect")
                             .attr('id', 'highlight-region')
                             .attr('x', x(tenMinutesAgo))
                             .attr('y', -currentOptions.dimensions.margin.top)
                             .attr('width', x(now) - x(tenMinutesAgo))
                             .attr('height', currentOptions.dimensions.height + currentOptions.dimensions.margin.bottom + currentOptions.dimensions.margin.top)
-                            .attr('class', 'highlighted-region')
-                            .attr('style', 'background-color: #000');
+                            .attr('class', 'highlighted-region');
+                        
+                        svg[0][0].insertBefore(highlightRegion[0][0], svg[0][0].firstChild);
                     }
                 });
             }
