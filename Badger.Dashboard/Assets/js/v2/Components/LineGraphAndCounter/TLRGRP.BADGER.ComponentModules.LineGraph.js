@@ -113,12 +113,22 @@
                     svg.select(".y.axis").call(yAxis);
 
                     var elementId = 'error-line',
-                        lineElement = svg.select("#" + elementId);
+                        lineElement = svg.select("#" + elementId),
+                        highlightedRegion = svg.select('#highlight-region'),
+                        now = moment(data[data.length - 1].time).toDate().getTime(),
+                        tenMinutesAgo = moment(data[data.length - 1].time).subtract('minutes', 10).toDate().getTime();
 
                     if (lineElement[0][0]) {
                         lineElement
                            .datum(data)
                            .attr("d", line);
+                        
+                        if (highlightedRegion[0][0]) {
+                            highlightedRegion
+                                .attr('x', x(tenMinutesAgo))
+                                .attr('y', -currentOptions.dimensions.margin.top)
+                                .attr('width', x(now) - x(tenMinutesAgo));
+                        }
                     }
                     else {
                         svg.append("path")
@@ -127,6 +137,16 @@
                             .attr("class", "line")
                             .attr("style", "stroke: " + (currentOptions.lineColor || 'red') + ";")
                             .attr("d", line);
+
+                        svg
+                            .append("rect")
+                            .attr('id', 'highlight-region')
+                            .attr('x', x(tenMinutesAgo))
+                            .attr('y', -currentOptions.dimensions.margin.top)
+                            .attr('width', x(now) - x(tenMinutesAgo))
+                            .attr('height', currentOptions.dimensions.height + currentOptions.dimensions.margin.bottom + currentOptions.dimensions.margin.top)
+                            .attr('class', 'highlighted-region')
+                            .attr('style', 'background-color: #000');
                     }
                 });
             }
