@@ -189,7 +189,14 @@
                                     title: 'Commission made in last 10mins',
                                     className: 'commission-graph-counter',
                                     prefix: '£',
-                                    precision: 0
+                                    precision: 0,
+                                    thresholds: [{
+                                        value: 700,
+                                        sound: '/Assets/sounds/smb_mariodie.wav'
+                                    }, {
+                                        value: 1500,
+                                        sound: '/Assets/sounds/smb_stage_clear.wav'
+                                    }]
                                 },
                                 graph: {
                                     className: 'commission-graph',

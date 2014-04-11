@@ -83,8 +83,6 @@
                 element.appendTo(container);
 
                 setTimeout(function () {
-                    console.log('append element');
-                    
                     if (!currentOptions.dimensions.width || !currentOptions.dimensions.height) {
                         calculateDimensionsFromElement();
                     }
@@ -98,7 +96,6 @@
                 return 'content';
             },
             setData: function (data) {
-                console.log('set data');
                 $.when(graphReady).then(function() {
                     for (var m = 0; m < data.length; m++) {
                         data[m].time = new Date(data[m].time);

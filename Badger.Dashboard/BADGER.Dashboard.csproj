@@ -227,6 +227,8 @@
     <Content Include="Assets\js\v2\menu\TLRGRP.BADGER.Dashboard.Menu.js" />
     <Content Include="Assets\js\v2\menu\TLRGRP.BADGER.Dashboard.ViewSelector.js" />
     <Content Include="Assets\js\v2\pageManager\TLRGRP.BADGER.Dashboard.PageManager.js" />
+    <Content Include="Assets\sounds\smb_mariodie.wav" />
+    <Content Include="Assets\sounds\smb_stage_clear.wav" />
     <Content Include="Global.asax" />
     <Content Include="Views\Home\graph.html" />
     <Content Include="Web.config">
